@@ -2,29 +2,32 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HPBar : MonoBehaviour
+namespace GameScene.HPBars
 {
-    private Transform _transformOverEntity;
-
-    [SerializeField]
-    private Slider _sliderHP;
-
-    [SerializeField]
-    private TMP_Text _textHP;
-
-    public void Update()
+    public class HPBar : MonoBehaviour
     {
-        transform.position = _transformOverEntity.position;
-    }
+        private Transform _transformOverEntity;
 
-    public void InitializeValues(ref Transform tranformEntity)
-    {
-        _transformOverEntity = tranformEntity;
-    }
+        [SerializeField]
+        private Slider _sliderHP;
 
-    public void ChangeHPBar(int _healthValue, int _maxHealthValue)
-    {
-        _textHP.text = _healthValue.ToString();
-        _sliderHP.value = (float)_healthValue / (float)_maxHealthValue;
+        [SerializeField]
+        private TMP_Text _textHP;
+
+        public void Update()
+        {
+            transform.position = _transformOverEntity.position;
+        }
+
+        public void InitializeValues(ref Transform tranformEntity)
+        {
+            _transformOverEntity = tranformEntity;
+        }
+
+        public void ChangeHPBar(int _healthValue, int _maxHealthValue)
+        {
+            _textHP.text = _healthValue.ToString() + " HP";
+            _sliderHP.value = (float)_healthValue / (float)_maxHealthValue;
+        }
     }
 }

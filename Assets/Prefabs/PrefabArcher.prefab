@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7353671557570612810}
   - component: {fileID: 7237273246815632481}
-  - component: {fileID: 6307332618248532156}
+  - component: {fileID: 6374380715411918965}
   - component: {fileID: 2713806198433595835}
   - component: {fileID: 8705762729372925797}
   - component: {fileID: 7294158500122499360}
+  - component: {fileID: -2424256051422407970}
   m_Layer: 0
   m_Name: PrefabArcher
   m_TagString: Untagged
@@ -30,11 +31,12 @@ Transform:
   m_GameObject: {fileID: 5065065929579615910}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.18, y: -2.59, z: 0}
+  m_LocalPosition: {x: -3.32, y: -2.5, z: 0}
   m_LocalScale: {x: 1.5019, y: 3.1197982, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5213523484659567694}
+  - {fileID: 3030884612407138739}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7237273246815632481
@@ -92,7 +94,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6307332618248532156
+--- !u!114 &6374380715411918965
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,13 +103,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 5065065929579615910}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f36981e9789f8194e87f8d14b8522752, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bc197caab516d94798a5a7a4633255b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _entityData: {fileID: 11400000, guid: 71882138ec6c3054987dc6011e4e1acc, type: 2}
   _prefabHPBar: {fileID: 6919197407864049017, guid: e2835cbb1b55188459315c498b3ab54c, type: 3}
   _transformSpawnHPBar: {fileID: 5213523484659567694}
-  _parentHPBars: {fileID: 0}
+  _transformSpawnText: {fileID: 3030884612407138739}
   _entityType: 2
+  _textPrefab: {fileID: 4108277758879077828, guid: ba327c87d7148ed4ebef7591b11fdecd, type: 3}
+  _namesForEntitys:
+  - Barak
+  - Anton
+  - Referi
+  _toxicDamage: 1
 --- !u!61 &2713806198433595835
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -215,7 +224,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.00000071525574, y: 0.0030242205}
+  m_Offset: {x: 0, y: 0.0030242205}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -225,8 +234,52 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 11.120958, y: 1.0060477}
+  m_Size: {x: 16.325062, y: 1.0060477}
   m_EdgeRadius: 0
+--- !u!114 &-2424256051422407970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5065065929579615910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 2
+--- !u!1 &7325438840382476705
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3030884612407138739}
+  m_Layer: 0
+  m_Name: PositionSpawnTextEvents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3030884612407138739
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7325438840382476705}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.95, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7353671557570612810}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7997094309702760644
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +290,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5213523484659567694}
   m_Layer: 0
-  m_Name: 'GameObject '
+  m_Name: PositionHPBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
