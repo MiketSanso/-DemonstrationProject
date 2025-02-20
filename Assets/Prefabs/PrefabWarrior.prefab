@@ -168,11 +168,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a6d61bd0620c6a48ae4cdf0b7c3b1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _entityData: {fileID: 11400000, guid: b812dc1648b9d854986fca0ada9e5bfd, type: 2}
   _prefabHPBar: {fileID: 6919197407864049017, guid: e2835cbb1b55188459315c498b3ab54c, type: 3}
   _transformSpawnHPBar: {fileID: 1145340058211569509}
   _transformSpawnText: {fileID: 1679852057894580116}
   _entityType: 0
   _textPrefab: {fileID: 4108277758879077828, guid: ba327c87d7148ed4ebef7591b11fdecd, type: 3}
+  _namesForEntitys:
+  - Roma
+  - Chimit
+  - Da
 --- !u!61 &6464595512100237697
 BoxCollider2D:
   m_ObjectHideFlags: 0

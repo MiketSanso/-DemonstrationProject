@@ -14,6 +14,10 @@ namespace GameScene.Entity
     {
         public Entity _entity;
 
+        public EntityData _entityData;
+
+        protected int _health;
+
         protected HPBar _hpBar;
 
         protected List<EntityUI> _entitiesInAttaksZone = new List<EntityUI>();
@@ -58,10 +62,18 @@ namespace GameScene.Entity
 
         private void Awake()
         {
-            _entity = new Entity(100, 100, 2, 5, 5, 70, "ПЕРК", _namesForEntitys[Random.Range(0, _namesForEntitys.Length)],  _entityType);
+            _entity = new Entity(_entityData.MaxHealthEntity, 
+                _entityData.MaxHealthEntity, 
+                _entityData.Cooldown, 
+                _entityData.BaseDamage, 
+                _entityData.DurationPerk, 
+                _entityData.PercentagesChancePerk, 
+                _entityData.TextApplicationsPerk,
+                _namesForEntitys[Random.Range(0, _namesForEntitys.Length)],
+                _entityData.EntityType);
         }
 
-        protected void CreateHPBar()
+        private void CreateHPBar()
         {
             GameObject _HPBarObject = Instantiate(_prefabHPBar.gameObject, _transformSpawnHPBar.position, Quaternion.identity, _parentHPBars);
 
@@ -82,10 +94,7 @@ namespace GameScene.Entity
             {
                 _entitiesInAttaksZone.Add(other.GetComponent<EntityUI>());
 
-                if (Random.Range(0, 101) < _entity.PercentagesChancePerk)
-                {
-                    StartTaskAttack();
-                }
+                StartTaskAttack();
             }
         }
 
@@ -95,49 +104,6 @@ namespace GameScene.Entity
             {
                 _entitiesInAttaksZone.Remove(other.GetComponent<EntityUI>());
             }
-        }
-
-        protected virtual async Task TakeDamage()
-        {
-            do
-            {
-                if (_cts == null || _cts.IsCancellationRequested || _entity.BaseDamage == 0)
-                {
-                    break;
-                }
-
-                int indexSelectedEntity = Random.Range(0, _entitiesInAttaksZone.Count);
-
-                int damage = Random.Range(-_entity.BaseDamage - 3, -_entity.BaseDamage + 3) + _entity.CoefChangeDamage;
-
-                if (damage > 0)
-                    damage = 0;
-
-                _entitiesInAttaksZone[indexSelectedEntity].AddingValueToHealth(damage);
-
-                TMP_Text text = Instantiate(_textPrefab, _entitiesInAttaksZone[indexSelectedEntity]._transformSpawnText.position, Quaternion.identity, _parentHPBars);
-                text.text = $"{damage} HP";
-                await _createTextFlyAnimationUnderEntityUseCase.Execute(text);
-
-                if (_entitiesInAttaksZone[indexSelectedEntity]._entity.HealthEntity == 0)
-                {
-                    _entitiesInAttaksZone[indexSelectedEntity].DestroyHPBar();
-                    Destroy(_entitiesInAttaksZone[indexSelectedEntity].gameObject);
-                    _gameManager.ActivateEndPanel(_entity.TextNameEntity);
-
-                    return;
-                }
-
-                await Task.Delay(_entity.Cooldown * 1000);
-
-                if (!_perkIsActive)
-                {
-                    UseEntityPerk(_entitiesInAttaksZone[indexSelectedEntity]);
-                    _perkIsActive = true;
-                }
-
-                await Task.Delay(500);
-            } while (_entitiesInAttaksZone.Count != 0);
         }
 
         public async void StartTaskAttack()
@@ -163,16 +129,60 @@ namespace GameScene.Entity
             }
         }
 
+        private async Task TakeDamage()
+        {
+            do
+            {
+                if (_cts == null || _cts.IsCancellationRequested || _entity.BaseDamage == 0)
+                {
+                    break;
+                }
+
+                int indexSelectedEntity = Random.Range(0, _entitiesInAttaksZone.Count);
+
+                int damage = Random.Range(-_entity.BaseDamage - 3, -_entity.BaseDamage + 3) + _entity.CoefChangeDamage;
+
+                if (damage > 0)
+                    damage = 0;
+
+                _entitiesInAttaksZone[indexSelectedEntity].AddingValueToHealth(damage);
+
+                TMP_Text text = Instantiate(_textPrefab, _entitiesInAttaksZone[indexSelectedEntity]._transformSpawnText.position, Quaternion.identity, _parentHPBars);
+                text.text = $"{damage} HP";
+                await _createTextFlyAnimationUnderEntityUseCase.Execute(text);
+
+                if (_entitiesInAttaksZone[indexSelectedEntity]._entity.HealthEntity == 0)
+                {
+                    _entitiesInAttaksZone[indexSelectedEntity].DestroyThisObject();
+                    _gameManager.ActivateEndPanel(_entity.TextNameEntity);
+
+                    return;
+                }
+
+                await Task.Delay(_entity.Cooldown * 1000);
+
+                if (Random.Range(0, 101) < _entity.PercentagesChancePerk 
+                    && !_perkIsActive 
+                    && _entitiesInAttaksZone[indexSelectedEntity] != null)
+                {
+                    UseEntityPerk(_entitiesInAttaksZone[indexSelectedEntity]);
+                    _perkIsActive = true;
+                }
+                await Task.Delay(500);
+            } while (_entitiesInAttaksZone.Count != 0);
+        }
+
         protected virtual async void UseEntityPerk(EntityUI enemy)
         {
-            TMP_Text text = Instantiate(_textPrefab, enemy._transformSpawnText.position, Quaternion.identity, _parentHPBars);
+            TMP_Text text = Instantiate(_textPrefab, _transformSpawnText.position, Quaternion.identity, _parentHPBars);
             text.text = $"Персонаж использовал перк: {_entity.TextApplicationsPerk}";
             await _createTextFlyAnimationUnderEntityUseCase.Execute(text);
         }
 
-        public void DestroyHPBar()
+        public void DestroyThisObject()
         {
             Destroy(_hpBar.gameObject);
+            Destroy(gameObject);
         }
     }
 }

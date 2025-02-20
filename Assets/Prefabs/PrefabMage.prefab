@@ -106,11 +106,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1817ad0ba4fb0b248b8fb580112a87fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _entityData: {fileID: 11400000, guid: 353ccdfbe8a039e439d40a289b3ba43c, type: 2}
   _prefabHPBar: {fileID: 6919197407864049017, guid: e2835cbb1b55188459315c498b3ab54c, type: 3}
   _transformSpawnHPBar: {fileID: 4814239405787415320}
   _transformSpawnText: {fileID: 6847372920664774073}
   _entityType: 1
   _textPrefab: {fileID: 4108277758879077828, guid: ba327c87d7148ed4ebef7591b11fdecd, type: 3}
+  _namesForEntitys:
+  - Maks
+  - Mirak
+  - Michail
   _coefChangeDamage: 3
 --- !u!61 &6696528899184224525
 BoxCollider2D:

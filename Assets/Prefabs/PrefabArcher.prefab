@@ -106,11 +106,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bc197caab516d94798a5a7a4633255b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _entityData: {fileID: 11400000, guid: 71882138ec6c3054987dc6011e4e1acc, type: 2}
   _prefabHPBar: {fileID: 6919197407864049017, guid: e2835cbb1b55188459315c498b3ab54c, type: 3}
   _transformSpawnHPBar: {fileID: 5213523484659567694}
   _transformSpawnText: {fileID: 3030884612407138739}
   _entityType: 2
   _textPrefab: {fileID: 4108277758879077828, guid: ba327c87d7148ed4ebef7591b11fdecd, type: 3}
+  _namesForEntitys:
+  - Barak
+  - Anton
+  - Referi
   _toxicDamage: 1
 --- !u!61 &2713806198433595835
 BoxCollider2D:

@@ -29,14 +29,13 @@ namespace GameScene.GameManager
 
         private void CreateEntitys()
         {
-            List<EntityUI> createdEntities = new List<EntityUI>();
-
             for (int i = 0; i < _transformsSpawnEntities.Length; i++)
             {
-                createdEntities.Add(Instantiate(_entitiyPrefabs[Random.Range(0, _entitiyPrefabs.Length)], _transformsSpawnEntities[i].position, Quaternion.identity, _transformsSpawnEntities[i]).GetComponent<EntityUI>());
+                _entities.Add(Instantiate(_entitiyPrefabs[Random.Range(0, _entitiyPrefabs.Length)], 
+                    _transformsSpawnEntities[i].position, 
+                    Quaternion.identity, 
+                    _transformsSpawnEntities[i]).GetComponent<EntityUI>());
             }
-
-            _entities = createdEntities;
         }
 
         public void ActivateEndPanel(string nameEntity)
@@ -51,8 +50,7 @@ namespace GameScene.GameManager
             {
                 if (_entities[i] != null)
                 {
-                    _entities[i].DestroyHPBar();
-                    Destroy(_entities[i].gameObject);
+                    _entities[i].DestroyThisObject();
                 }
             }
 
