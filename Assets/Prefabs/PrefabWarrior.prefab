@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &497849617287914909
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1679852057894580116}
+  m_Layer: 0
+  m_Name: PositionSpawnTextEvents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1679852057894580116
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497849617287914909}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.95, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 727820393409401173}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1161922573704012910
 GameObject:
   m_ObjectHideFlags: 0
@@ -41,10 +72,11 @@ GameObject:
   m_Component:
   - component: {fileID: 727820393409401173}
   - component: {fileID: 3492896001844325549}
-  - component: {fileID: 1470484521565988672}
+  - component: {fileID: 4661283280878822182}
   - component: {fileID: 6464595512100237697}
   - component: {fileID: 6565223787651520966}
   - component: {fileID: 6792354264301267480}
+  - component: {fileID: -8909112896630055924}
   m_Layer: 0
   m_Name: PrefabWarrior
   m_TagString: Untagged
@@ -61,11 +93,12 @@ Transform:
   m_GameObject: {fileID: 7223674322946716280}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.19, y: -2.59, z: 0}
+  m_LocalPosition: {x: 4.51, y: -2.56, z: 0}
   m_LocalScale: {x: 1.5019, y: 3.1197982, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1145340058211569509}
+  - {fileID: 1679852057894580116}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3492896001844325549
@@ -123,7 +156,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1470484521565988672
+--- !u!114 &4661283280878822182
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,13 +165,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7223674322946716280}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f36981e9789f8194e87f8d14b8522752, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a6d61bd0620c6a48ae4cdf0b7c3b1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _prefabHPBar: {fileID: 6919197407864049017, guid: e2835cbb1b55188459315c498b3ab54c, type: 3}
   _transformSpawnHPBar: {fileID: 1145340058211569509}
-  _parentHPBars: {fileID: 0}
+  _transformSpawnText: {fileID: 1679852057894580116}
   _entityType: 0
+  _textPrefab: {fileID: 4108277758879077828, guid: ba327c87d7148ed4ebef7591b11fdecd, type: 3}
 --- !u!61 &6464595512100237697
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -219,7 +253,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.00000071525574, y: 0.0030242205}
+  m_Offset: {x: 0.010008335, y: 0.0030242205}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -229,7 +263,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 11.120958, y: 1.0060477}
+  m_Size: {x: 19.14729, y: 1.0060477}
   m_EdgeRadius: 0
 --- !u!50 &6792354264301267480
 Rigidbody2D:
@@ -258,3 +292,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &-8909112896630055924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7223674322946716280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 2
