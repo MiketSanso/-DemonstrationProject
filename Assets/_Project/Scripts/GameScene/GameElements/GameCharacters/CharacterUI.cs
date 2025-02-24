@@ -41,7 +41,7 @@ namespace GameScene.Character
         private void Awake()
         {
             Character = new Character(_characterData,
-                _namesForEntitys[Random.Range(0, _namesForEntitys.Length)]);
+            _namesForEntitys[Random.Range(0, _namesForEntitys.Length)]);
         }
 
         public void InitializeVariables(HPBar hpBar, TMP_Text[] poolTexts)
@@ -54,6 +54,11 @@ namespace GameScene.Character
         {
             Destroy(HpBar.gameObject);
             Destroy(gameObject);
+
+            for (int i = 0; i < CountTextsInPool; i++)
+            {
+                Destroy(_poolTexts[i].gameObject);
+            }
         }
 
         public async UniTask CreateText(string textForSpawn)
