@@ -2,24 +2,12 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
-using Zenject;
+using GameScene.HPBars;
 
 namespace GameScene.Character
 {
     public class CharacterUI : MonoBehaviour
     {
-        public Character Character;
-
-        public TakeDamageEnemy TakeDamageEnemy;
-
-        public CreateHPBarEntity CreateHPBar;
-
-        [HideInInspector]
-        public TMP_Text[] _poolTexts;
-
-        [SerializeField]
-        protected Transform TransformSpawnText;
-
         [SerializeField]
         private int _heightFlyText;
 
@@ -27,54 +15,59 @@ namespace GameScene.Character
         private int _speedFlyText;
 
         [SerializeField]
-        private int _countTextsInPool;
-
-        [SerializeField]
         private CharacterData _characterData;
-
-        [SerializeField]
-        private TMP_Text _textPrefab;
 
         [SerializeField]
         private string[] _namesForEntitys;
 
-        [Inject]
-        private Transform _parentText;
+        private TMP_Text[] _poolTexts;
+
+        public HPBar HpBar { get; private set; }
+
+        public Character Character { get; private set; }
+
+        [field: SerializeField]
+        public TakeDamageEnemy TakeDamageEnemy { get; private set; }
+
+        [field: SerializeField]
+        public int CountTextsInPool { get; private set; }
+
+        [field: SerializeField]
+        public Transform TransformSpawnHPBar { get; private set; }
+
+        [field: SerializeField]
+        public Transform TransformSpawnText { get; private set; }
 
         private void Awake()
         {
-            CreatePoolTexts();
-
             Character = new Character(_characterData,
                 _namesForEntitys[Random.Range(0, _namesForEntitys.Length)]);
         }
 
-        public void DestroyThisObject()
+        public void InitializeVariables(HPBar hpBar, TMP_Text[] poolTexts)
         {
-            Destroy(CreateHPBar.HpBar.gameObject);
-            Destroy(gameObject);
+            HpBar = hpBar;
+            _poolTexts = poolTexts;
         }
 
-        private void CreatePoolTexts()
+        public void DestroyThisObject()
         {
-            _poolTexts = new TMP_Text[_countTextsInPool];
-
-            for (int i = 0; i < _countTextsInPool; i++)
-            {
-                _poolTexts[i] = Instantiate(_textPrefab, TransformSpawnText.position, Quaternion.identity, _parentText);
-            }
+            Destroy(HpBar.gameObject);
+            Destroy(gameObject);
         }
 
         public async UniTask CreateText(string textForSpawn)
         {
-            for (int i = 0; i < _countTextsInPool; i++)
+            for (int i = 0; i < CountTextsInPool; i++)
             {
                 if (_poolTexts[i].color.a == 0)
                 {
+                    _poolTexts[i].color = new Vector4(_poolTexts[i].color.r, _poolTexts[i].color.g, _poolTexts[i].color.b, 100);
+                    _poolTexts[i].transform.position = TransformSpawnText.position;
                     _poolTexts[i].text = textForSpawn;
 
-                    _poolTexts[i].transform.DOMove(new Vector3(transform.position.x, transform.position.y + _heightFlyText), _speedFlyText);
-                    _poolTexts[i].DOColor(new Vector4(_textPrefab.color.r, _textPrefab.color.g, _textPrefab.color.b, 0), _speedFlyText);
+                    _poolTexts[i].transform.DOMove(new Vector3(_poolTexts[i].transform.position.x, _poolTexts[i].transform.position.y + _heightFlyText), _speedFlyText);
+                    _poolTexts[i].DOColor(new Vector4(_poolTexts[i].color.r, _poolTexts[i].color.g, _poolTexts[i].color.b, 0), _speedFlyText);
 
                     break;
                 }

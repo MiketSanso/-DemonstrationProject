@@ -14,7 +14,7 @@ namespace GameScene.HPBars
 
         private Transform _transformOverEntity;
 
-        public void Update()
+        private void Update()
         {
             transform.position = _transformOverEntity.position;
         }

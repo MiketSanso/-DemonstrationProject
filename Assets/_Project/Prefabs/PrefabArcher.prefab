@@ -12,11 +12,8 @@ GameObject:
   - component: {fileID: 7237273246815632481}
   - component: {fileID: 6374380715411918965}
   - component: {fileID: 656814496093202204}
-  - component: {fileID: 7674035773947439405}
   - component: {fileID: 2713806198433595835}
   - component: {fileID: 8705762729372925797}
-  - component: {fileID: 7294158500122499360}
-  - component: {fileID: -2424256051422407970}
   m_Layer: 0
   m_Name: PrefabArcher
   m_TagString: Untagged
@@ -108,7 +105,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bc197caab516d94798a5a7a4633255b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EndPanelSettings: {fileID: 0}
   _toxicDamage: 1
 --- !u!114 &656814496093202204
 MonoBehaviour:
@@ -122,31 +118,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f36981e9789f8194e87f8d14b8522752, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TakeDamageEnemy: {fileID: 6374380715411918965}
-  CreateHPBar: {fileID: 7674035773947439405}
-  _heightFlyText: 5
-  _speedFlyText: 3
+  _heightFlyText: 3
+  _speedFlyText: 1
   _characterData: {fileID: 11400000, guid: 71882138ec6c3054987dc6011e4e1acc, type: 2}
-  TransformSpawnText: {fileID: 3030884612407138739}
-  _textPrefab: {fileID: 4108277758879077828, guid: ba327c87d7148ed4ebef7591b11fdecd, type: 3}
   _namesForEntitys:
   - Aboba
   - Abento
   - VarniySavelievich
---- !u!114 &7674035773947439405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5065065929579615910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5812d67a71391cd41ba7cbf078677266, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PrefabHPBar: {fileID: 8959853618519604995, guid: e2835cbb1b55188459315c498b3ab54c, type: 3}
-  TransformSpawnHPBar: {fileID: 5213523484659567694}
+  <TakeDamageEnemy>k__BackingField: {fileID: 6374380715411918965}
+  <CountTextsInPool>k__BackingField: 4
+  <TransformSpawnHPBar>k__BackingField: {fileID: 5213523484659567694}
+  <TransformSpawnText>k__BackingField: {fileID: 3030884612407138739}
 --- !u!61 &2713806198433595835
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -220,65 +202,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &7294158500122499360
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5065065929579615910}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.0030242205}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 16.325062, y: 1.0060477}
-  m_EdgeRadius: 0
---- !u!114 &-2424256051422407970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5065065929579615910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _containerSource: 2
 --- !u!1 &7325438840382476705
 GameObject:
   m_ObjectHideFlags: 0

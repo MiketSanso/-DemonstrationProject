@@ -2,30 +2,30 @@ using GameScene.HPBars;
 using UnityEngine;
 using Zenject;
 
-public class CreateHPBarEntity : MonoBehaviour
+namespace GameScene.Character
 {
-
-    [SerializeField]
-    protected Transform TransformSpawnHPBar;
-
-    [Inject]
-    protected Transform ParentHPBars;
-
-    [SerializeField]
-    private HPBar PrefabHPBar;
-
-    public HPBar HpBar { get; private set; }
-
-    public void CreateHPBar()
+    public class CreateHPBarEntity : MonoBehaviour
     {
-        HpBar = Instantiate(PrefabHPBar, TransformSpawnHPBar.position, Quaternion.identity, ParentHPBars);
+        public Transform ParentHPBars;
 
-        HpBar.InitializeValues(TransformSpawnHPBar);
-    }
+        [SerializeField]
+        private Transform TransformSpawnHPBar;
 
-    [Inject]
-    private void Initialize()
-    {
-        CreateHPBar();
+        [SerializeField]
+        private HPBar PrefabHPBar;
+
+        public HPBar HpBar { get; private set; }
+
+        public void CreateHPBar()
+        {
+            HpBar = Instantiate(PrefabHPBar, TransformSpawnHPBar.position, Quaternion.identity, ParentHPBars);
+
+            HpBar.InitializeValues(TransformSpawnHPBar);
+        }
+
+        public void DestroyHPBar()
+        {
+            Destroy(HpBar);
+        }
     }
 }

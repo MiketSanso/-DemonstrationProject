@@ -6,7 +6,7 @@ namespace GameScene.Level
     public class ReloadLevel : MonoBehaviour
     {
         [SerializeField]
-        private StartGame _startGame;
+        private CharactersFañtory _charactersFabric;
 
         [SerializeField]
         private EndPanelSettings _endPanelSettings;
@@ -19,18 +19,23 @@ namespace GameScene.Level
             _buttonRestart.onClick.AddListener(ReloadingLevel);
         }
 
+        private void Start()
+        {
+            ReloadingLevel();
+        }
+
         public void ReloadingLevel()
         {
-            for (int i = 0; i < _startGame.EntitiesInScene.Length; i++)
+            for (int i = 0; i < _charactersFabric.EntitiesInScene.Length; i++)
             {
-                if (_startGame.EntitiesInScene[i] != null)
+                if (_charactersFabric.EntitiesInScene[i] != null)
                 {
-                    _startGame.EntitiesInScene[i].DestroyThisObject();
+                    _charactersFabric.EntitiesInScene[i].DestroyThisObject();
                 }
             }
 
             _endPanelSettings.DeactivateEndPanel();
-            _startGame.CreateEntitys();
+            _charactersFabric.CreateCharacters();
         }
     }
 }
