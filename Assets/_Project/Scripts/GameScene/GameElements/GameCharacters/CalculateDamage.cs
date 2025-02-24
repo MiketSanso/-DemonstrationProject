@@ -1,4 +1,3 @@
-using GameScene.Character;
 using UnityEngine;
 
 namespace GameScene.Character

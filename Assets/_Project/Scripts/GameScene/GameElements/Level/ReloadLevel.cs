@@ -14,7 +14,7 @@ namespace GameScene.Level
         [SerializeField]
         private Button _buttonRestart;
 
-        public void Awake()
+        private void Awake()
         {
             _buttonRestart.onClick.AddListener(ReloadingLevel);
         }

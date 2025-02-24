@@ -1,5 +1,3 @@
-using Cysharp.Threading.Tasks;
-using GameScene.Level;
 using System.Threading;
 using UnityEngine;
 

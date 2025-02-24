@@ -6,13 +6,13 @@ namespace GameScene.HPBars
 {
     public class HPBar : MonoBehaviour
     {
-        private Transform _transformOverEntity;
-
         [SerializeField]
         private Slider _sliderHP;
 
         [SerializeField]
         private TMP_Text _textHP;
+
+        private Transform _transformOverEntity;
 
         public void Update()
         {

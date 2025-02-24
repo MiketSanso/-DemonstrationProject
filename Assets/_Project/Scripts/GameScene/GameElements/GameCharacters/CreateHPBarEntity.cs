@@ -4,10 +4,6 @@ using Zenject;
 
 public class CreateHPBarEntity : MonoBehaviour
 {
-    public HPBar HpBar { get; private set; }
-
-    [SerializeField]
-    private HPBar PrefabHPBar;
 
     [SerializeField]
     protected Transform TransformSpawnHPBar;
@@ -15,16 +11,21 @@ public class CreateHPBarEntity : MonoBehaviour
     [Inject]
     protected Transform ParentHPBars;
 
-    [Inject]
-    private void Initialize()
-    {
-        CreateHPBar();
-    }
+    [SerializeField]
+    private HPBar PrefabHPBar;
+
+    public HPBar HpBar { get; private set; }
 
     public void CreateHPBar()
     {
         HpBar = Instantiate(PrefabHPBar, TransformSpawnHPBar.position, Quaternion.identity, ParentHPBars);
 
         HpBar.InitializeValues(TransformSpawnHPBar);
+    }
+
+    [Inject]
+    private void Initialize()
+    {
+        CreateHPBar();
     }
 }

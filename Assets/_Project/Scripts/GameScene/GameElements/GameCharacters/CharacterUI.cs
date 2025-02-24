@@ -14,6 +14,12 @@ namespace GameScene.Character
 
         public CreateHPBarEntity CreateHPBar;
 
+        [HideInInspector]
+        public TMP_Text[] _poolTexts;
+
+        [SerializeField]
+        protected Transform TransformSpawnText;
+
         [SerializeField]
         private int _heightFlyText;
 
@@ -21,10 +27,10 @@ namespace GameScene.Character
         private int _speedFlyText;
 
         [SerializeField]
-        private CharacterData _characterData;
+        private int _countTextsInPool;
 
         [SerializeField]
-        protected Transform TransformSpawnText;
+        private CharacterData _characterData;
 
         [SerializeField]
         private TMP_Text _textPrefab;
@@ -37,6 +43,8 @@ namespace GameScene.Character
 
         private void Awake()
         {
+            CreatePoolTexts();
+
             Character = new Character(_characterData,
                 _namesForEntitys[Random.Range(0, _namesForEntitys.Length)]);
         }
@@ -47,13 +55,30 @@ namespace GameScene.Character
             Destroy(gameObject);
         }
 
+        private void CreatePoolTexts()
+        {
+            _poolTexts = new TMP_Text[_countTextsInPool];
+
+            for (int i = 0; i < _countTextsInPool; i++)
+            {
+                _poolTexts[i] = Instantiate(_textPrefab, TransformSpawnText.position, Quaternion.identity, _parentText);
+            }
+        }
+
         public async UniTask CreateText(string textForSpawn)
         {
-            TMP_Text text = Instantiate(_textPrefab, TransformSpawnText.position, Quaternion.identity, _parentText);
-            text.text = textForSpawn;
+            for (int i = 0; i < _countTextsInPool; i++)
+            {
+                if (_poolTexts[i].color.a == 0)
+                {
+                    _poolTexts[i].text = textForSpawn;
 
-            text.transform.DOMove(new Vector3(transform.position.x, transform.position.y + _heightFlyText), _speedFlyText);
-            text.DOColor(new Vector4(_textPrefab.color.r, _textPrefab.color.g, _textPrefab.color.b, 0), _speedFlyText);
+                    _poolTexts[i].transform.DOMove(new Vector3(transform.position.x, transform.position.y + _heightFlyText), _speedFlyText);
+                    _poolTexts[i].DOColor(new Vector4(_textPrefab.color.r, _textPrefab.color.g, _textPrefab.color.b, 0), _speedFlyText);
+
+                    break;
+                }
+            }
         }
     }
 }

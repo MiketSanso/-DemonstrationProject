@@ -11,10 +11,10 @@ namespace GameScene.Level
         [SerializeField]
         private Transform[] _transformsSpawnEntities = new Transform[2];
 
-        public CharacterUI[] EntitiesInScene { get; private set; } = new CharacterUI[2];
-
         [SerializeField]
         private EndPanelSettings _endPanelSettings;
+
+        public CharacterUI[] EntitiesInScene { get; private set; } = new CharacterUI[2];
 
         private void Start()
         {

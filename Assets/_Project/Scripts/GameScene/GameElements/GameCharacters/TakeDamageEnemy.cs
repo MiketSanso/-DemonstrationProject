@@ -7,14 +7,14 @@ namespace GameScene.Character
 {
     public abstract class TakeDamageEnemy : MonoBehaviour
     {
-        private CalculateDamage calculateDamage = new CalculateDamage();
+        [HideInInspector]
+        public EndPanelSettings EndPanelSettings;
 
         protected CancellationTokenSource CtsAttack;
 
         protected bool PerkIsActive = false;
 
-        [HideInInspector]
-        public EndPanelSettings EndPanelSettings;
+        private CalculateDamage calculateDamage = new CalculateDamage();
 
         public async void StartTaskAttack(CharacterUI enemy, CharacterUI character)
         {
@@ -31,6 +31,8 @@ namespace GameScene.Character
             CtsAttack?.Cancel();
             //CtsAttack?.Dispose();
         }
+
+        protected abstract UniTask Perk(CharacterUI enemy, CharacterUI character);
 
         protected void AddValueToHealthEnemy(int value, CharacterUI enemy)
         {
@@ -94,7 +96,5 @@ namespace GameScene.Character
                 PerkIsActive = false;
             }
         }
-
-        protected abstract UniTask Perk(CharacterUI enemy, CharacterUI character);
     }
 }
