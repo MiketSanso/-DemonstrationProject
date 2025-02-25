@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GameScene.Character.Mage
 {
-    public class Mage : TakeDamageEnemy
+    public class Mage : AttackEnemy
     {
         [SerializeField]
         private int _coefChangeDamage;

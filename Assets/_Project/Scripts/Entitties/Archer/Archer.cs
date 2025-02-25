@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GameScene.Character.Archer
 {
-    public class Archer : TakeDamageEnemy
+    public class Archer : AttackEnemy
     {
         [SerializeField]
         private int _toxicDamage;
@@ -19,7 +19,7 @@ namespace GameScene.Character.Archer
                 await UniTask.Delay(1000);
 
                 timeToxicDamage -= 1;
-            } while (enemy != null);
+            } while (timeToxicDamage != 0);
 
             PerkIsActive = false;
         }

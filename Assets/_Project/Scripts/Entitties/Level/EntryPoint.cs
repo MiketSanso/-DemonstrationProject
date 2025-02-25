@@ -5,7 +5,7 @@ namespace GameScene.Level
     public class EntryPoint : MonoBehaviour
     {
         [SerializeField]
-        private CharactersFañtory _charactersFactory;
+        private CharactersFactory _charactersFactory;
 
         void Start()
         {

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GameScene.Level
 {
-    public class CharactersFañtory : MonoBehaviour
+    public class CharactersFactory : MonoBehaviour
     {
         [SerializeField]
         private CharacterUI[] _entitiyPrefabs;
@@ -39,7 +39,7 @@ namespace GameScene.Level
                     _transformsSpawnEntities[i]);
                 EntitiesInScene[i] = createdObject;
 
-                EntitiesInScene[i].TakeDamageEnemy.InitializeVariables(_endPanelSettings);
+                EntitiesInScene[i].AttackEnemy.InitializeVariables(_endPanelSettings);
 
                 HPBar hpBarCharacter = CreateHPBar(EntitiesInScene[i]);
                 TMP_Text[] poolTextsCharacter = CreatePoolTexts(EntitiesInScene[i], EntitiesInScene[i].CountTextsInPool);
@@ -47,8 +47,8 @@ namespace GameScene.Level
                 EntitiesInScene[i].InitializeVariables(hpBarCharacter, poolTextsCharacter);
             }
 
-            EntitiesInScene[0].TakeDamageEnemy.StartTaskAttack(EntitiesInScene[1], EntitiesInScene[0]);
-            EntitiesInScene[1].TakeDamageEnemy.StartTaskAttack(EntitiesInScene[0], EntitiesInScene[1]);
+            EntitiesInScene[0].AttackEnemy.StartTaskAttack(EntitiesInScene[1], EntitiesInScene[0]);
+            EntitiesInScene[1].AttackEnemy.StartTaskAttack(EntitiesInScene[0], EntitiesInScene[1]);
         }
 
         private TMP_Text[] CreatePoolTexts(CharacterUI chareacter, int countTextsInPool)

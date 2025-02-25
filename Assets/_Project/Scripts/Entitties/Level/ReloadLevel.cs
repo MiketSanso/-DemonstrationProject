@@ -6,7 +6,7 @@ namespace GameScene.Level
     public class ReloadLevel : MonoBehaviour
     {
         [SerializeField]
-        private CharactersFañtory _charactersFactory;
+        private CharactersFactory _charactersFactory;
 
         [SerializeField]
         private EndPanelSettings _endPanelSettings;
@@ -21,9 +21,9 @@ namespace GameScene.Level
 
         public void ReloadingLevel()
         {
-            for (int i = 0; i < _charactersFactory.EntitiesInScene.Length; i++)
+            if (_charactersFactory.EntitiesInScene != null)
             {
-                if (_charactersFactory.EntitiesInScene[i] != null)
+                for (int i = 0; i < _charactersFactory.EntitiesInScene.Length; i++)
                 {
                     _charactersFactory.EntitiesInScene[i].DestroyThisObject();
                 }
