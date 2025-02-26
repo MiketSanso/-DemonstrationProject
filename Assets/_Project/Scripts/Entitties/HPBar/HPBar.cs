@@ -29,5 +29,10 @@ namespace GameScene.HPBars
             _textHP.text = _healthValue.ToString() + " HP";
             _sliderHP.value = (float)_healthValue / (float)_maxHealthValue;
         }
+
+        public void DestroyHPBar()
+        {
+            Destroy(gameObject);
+        }
     }
 }

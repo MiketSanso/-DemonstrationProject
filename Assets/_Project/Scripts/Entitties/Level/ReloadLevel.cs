@@ -25,7 +25,10 @@ namespace GameScene.Level
             {
                 for (int i = 0; i < _charactersFactory.EntitiesInScene.Length; i++)
                 {
-                    _charactersFactory.EntitiesInScene[i].DestroyThisObject();
+                    if (_charactersFactory.EntitiesInScene[i] != null)
+                    {
+                        _charactersFactory.EntitiesInScene[i].DestroyThisObject();
+                    }
                 }
             }
 
