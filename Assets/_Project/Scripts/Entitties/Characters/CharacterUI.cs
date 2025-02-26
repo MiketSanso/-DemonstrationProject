@@ -52,7 +52,7 @@ namespace GameScene.Character
 
         public void DestroyThisObject()
         {
-            Destroy(HpBar.gameObject);
+            HpBar.DestroyHPBar();
             AttackEnemy.StopTaskAttack();
 
             for (int i = 0; i < CountTextsInPool; i++)
