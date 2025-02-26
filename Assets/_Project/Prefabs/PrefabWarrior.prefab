@@ -186,7 +186,7 @@ MonoBehaviour:
   - aaa
   - sss
   - vvv
-  <TakeDamageEnemy>k__BackingField: {fileID: 4661283280878822182}
+  <AttackEnemy>k__BackingField: {fileID: 4661283280878822182}
   <CountTextsInPool>k__BackingField: 4
   <TransformSpawnHPBar>k__BackingField: {fileID: 1145340058211569509}
   <TransformSpawnText>k__BackingField: {fileID: 1679852057894580116}

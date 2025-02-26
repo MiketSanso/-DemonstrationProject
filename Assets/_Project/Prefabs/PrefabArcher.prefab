@@ -125,7 +125,7 @@ MonoBehaviour:
   - Aboba
   - Abento
   - VarniySavelievich
-  <TakeDamageEnemy>k__BackingField: {fileID: 6374380715411918965}
+  <AttackEnemy>k__BackingField: {fileID: 6374380715411918965}
   <CountTextsInPool>k__BackingField: 4
   <TransformSpawnHPBar>k__BackingField: {fileID: 5213523484659567694}
   <TransformSpawnText>k__BackingField: {fileID: 3030884612407138739}

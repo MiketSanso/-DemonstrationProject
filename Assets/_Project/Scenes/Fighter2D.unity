@@ -566,7 +566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d78d961f1705f154f93ac98deb16f9a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _charactersFabric: {fileID: 959293216}
+  _charactersFactory: {fileID: 959293216}
   _endPanelSettings: {fileID: 1118216775}
   _buttonRestart: {fileID: 67426573}
 --- !u!1 &519420028
