@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GameScene.Character
 {
-    public abstract class TakeDamageEnemy : MonoBehaviour
+    public abstract class AttackEnemy : MonoBehaviour
     {
         protected CancellationTokenSource CtsAttack;
 
@@ -28,7 +28,6 @@ namespace GameScene.Character
         public void StopTaskAttack()
         {
             CtsAttack?.Cancel();
-            //CtsAttack?.Dispose();
         }
 
         public void InitializeVariables(EndPanelSettings endPanelSettings)

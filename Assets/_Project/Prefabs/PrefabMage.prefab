@@ -125,7 +125,7 @@ MonoBehaviour:
   - 1
   - 2
   - 3
-  <TakeDamageEnemy>k__BackingField: {fileID: 1924647831964336213}
+  <AttackEnemy>k__BackingField: {fileID: 1924647831964336213}
   <CountTextsInPool>k__BackingField: 4
   <TransformSpawnHPBar>k__BackingField: {fileID: 4814239405787415320}
   <TransformSpawnText>k__BackingField: {fileID: 6847372920664774073}

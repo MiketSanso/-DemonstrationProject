@@ -27,7 +27,7 @@ namespace GameScene.Character
         public Character Character { get; private set; }
 
         [field: SerializeField]
-        public TakeDamageEnemy TakeDamageEnemy { get; private set; }
+        public AttackEnemy AttackEnemy { get; private set; }
 
         [field: SerializeField]
         public int CountTextsInPool { get; private set; }
@@ -53,12 +53,14 @@ namespace GameScene.Character
         public void DestroyThisObject()
         {
             Destroy(HpBar.gameObject);
-            Destroy(gameObject);
+            AttackEnemy.StopTaskAttack();
 
             for (int i = 0; i < CountTextsInPool; i++)
             {
                 Destroy(_poolTexts[i].gameObject);
             }
+
+            Destroy(gameObject);
         }
 
         public async UniTask CreateText(string textForSpawn)
