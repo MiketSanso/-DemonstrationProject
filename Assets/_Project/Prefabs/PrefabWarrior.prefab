@@ -181,18 +181,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _heightFlyText: 3
-<<<<<<< HEAD
   _speedFlyText: 5
   AttackEnemy: {fileID: 4661283280878822182}
-=======
-  _speedFlyText: 1
-  _characterData: {fileID: 11400000, guid: b812dc1648b9d854986fca0ada9e5bfd, type: 2}
-  _namesForEntitys:
-  - aaa
-  - sss
-  - vvv
-  <AttackEnemy>k__BackingField: {fileID: 4661283280878822182}
->>>>>>> 1ae4312d68fd11c59cbe48c26c578b07b4bdda25
   <CountTextsInPool>k__BackingField: 4
   <TransformSpawnHPBar>k__BackingField: {fileID: 1145340058211569509}
   <TransformSpawnText>k__BackingField: {fileID: 1679852057894580116}

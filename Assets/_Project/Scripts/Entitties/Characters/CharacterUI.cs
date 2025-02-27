@@ -18,16 +18,6 @@ namespace GameScene.Characters
 
         private TMP_Text[] _poolTexts;
 
-<<<<<<< HEAD
-=======
-        public HPBar HpBar { get; private set; }
-
-        public Character Character { get; private set; }
-
-        [field: SerializeField]
-        public AttackEnemy AttackEnemy { get; private set; }
-
->>>>>>> 1ae4312d68fd11c59cbe48c26c578b07b4bdda25
         [field: SerializeField]
         public int CountTextsInPool { get; private set; }
 
@@ -41,7 +31,6 @@ namespace GameScene.Characters
 
         private void OnEnable()
         {
-<<<<<<< HEAD
             AttackEnemy.CreateText += StartCreateText;
             AttackEnemy.DestroyCharacter += DestroyThisObject;
         }
@@ -50,10 +39,6 @@ namespace GameScene.Characters
         {
             AttackEnemy.CreateText -= StartCreateText;
             AttackEnemy.DestroyCharacter -= DestroyThisObject;
-=======
-            Character = new Character(_characterData,
-            _namesForEntitys[Random.Range(0, _namesForEntitys.Length)]);
->>>>>>> 1ae4312d68fd11c59cbe48c26c578b07b4bdda25
         }
 
         public void InitializeVariables(HPBar hpBar, TMP_Text[] poolTexts)
