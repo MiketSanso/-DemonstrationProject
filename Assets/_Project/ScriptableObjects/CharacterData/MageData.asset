@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f724084f1cc240141bcbfb9b5823e5fe, type: 3}
+  m_Script: {fileID: 11500000, guid: 98c7809e54cf54447a23cd6e77a5da83, type: 3}
   m_Name: MageData
   m_EditorClassIdentifier: 
-  <Damage>k__BackingField: 3
+  <Damage>k__BackingField: 5
   <Cooldown>k__BackingField: 1
   <OneWayDamageSpread>k__BackingField: 3
   <MaxHealthEntity>k__BackingField: 100
   <DurationPerk>k__BackingField: 5
-  <PercentagesChancePerk>k__BackingField: 30
-  <TextApplicationsPerk>k__BackingField: a
+  <PercentagesChancePerk>k__BackingField: 20
+  <TextApplicationsPerk>k__BackingField: "\u0421\u043B\u0430\u0431\u043E\u0441\u0442\u044C"

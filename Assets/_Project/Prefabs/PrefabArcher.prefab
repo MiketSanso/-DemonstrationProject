@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7353671557570612810}
   - component: {fileID: 7237273246815632481}
-  - component: {fileID: 6374380715411918965}
+  - component: {fileID: 7428683926517838016}
   - component: {fileID: 656814496093202204}
   - component: {fileID: 2713806198433595835}
   - component: {fileID: 8705762729372925797}
@@ -93,7 +93,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6374380715411918965
+--- !u!114 &7428683926517838016
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -102,10 +102,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5065065929579615910}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bc197caab516d94798a5a7a4633255b, type: 3}
+  m_Script: {fileID: 11500000, guid: b1c4b53e33d37e34f951709020ef0666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _toxicDamage: 1
+  <CharacterData>k__BackingField: {fileID: 11400000, guid: 71882138ec6c3054987dc6011e4e1acc, type: 2}
+  _toxicDamage: 3
 --- !u!114 &656814496093202204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,10 +116,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5065065929579615910}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f36981e9789f8194e87f8d14b8522752, type: 3}
+  m_Script: {fileID: 11500000, guid: e17d8e85af1efc044add18d882317f7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _heightFlyText: 3
+<<<<<<< HEAD
+  _speedFlyText: 5
+  AttackEnemy: {fileID: 7428683926517838016}
+=======
   _speedFlyText: 1
   _characterData: {fileID: 11400000, guid: 71882138ec6c3054987dc6011e4e1acc, type: 2}
   _namesForEntitys:
@@ -126,6 +131,7 @@ MonoBehaviour:
   - Abento
   - VarniySavelievich
   <AttackEnemy>k__BackingField: {fileID: 6374380715411918965}
+>>>>>>> 1ae4312d68fd11c59cbe48c26c578b07b4bdda25
   <CountTextsInPool>k__BackingField: 4
   <TransformSpawnHPBar>k__BackingField: {fileID: 5213523484659567694}
   <TransformSpawnText>k__BackingField: {fileID: 3030884612407138739}
