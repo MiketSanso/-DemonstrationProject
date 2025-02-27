@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _heightFlyText: 3
-  _speedFlyText: 5
+  _speedFlyText: 1
   AttackEnemy: {fileID: 7428683926517838016}
   <CountTextsInPool>k__BackingField: 4
   <TransformSpawnHPBar>k__BackingField: {fileID: 5213523484659567694}
