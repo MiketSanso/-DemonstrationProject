@@ -1,3 +1,5 @@
+using GameScene.Characters;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,7 +29,12 @@ namespace GameScene.Level
                 {
                     if (_charactersFactory.EntitiesInScene[i] != null)
                     {
-                        _charactersFactory.EntitiesInScene[i].DestroyThisObject();
+                        if (_charactersFactory.EntitiesInScene[i].TryGetComponent(out CharacterUI characterUI))
+                        {
+                            characterUI.DestroyThisObject();
+                        }
+                        else
+                            Debug.LogError("CharacterUI у одного из объектов отсутствует!");
                     }
                 }
             }

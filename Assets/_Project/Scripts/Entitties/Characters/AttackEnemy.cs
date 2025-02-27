@@ -1,21 +1,33 @@
 using Cysharp.Threading.Tasks;
 using System.Threading;
 using GameScene.Level;
+using System;
 using UnityEngine;
 
-namespace GameScene.Character
+namespace GameScene.Characters
 {
     public abstract class AttackEnemy : MonoBehaviour
     {
+        public event Action DestroyCharacter;
+
+        public event Action<string> CreateText;
+
+        public event Action<int, int> ChangeHPBar;
+
         protected CancellationTokenSource CtsAttack;
 
         protected bool PerkIsActive = false;
 
         private EndPanelSettings _endPanelSettings;
 
-        private CalculateDamage calculateDamage = new CalculateDamage();
+        private CalculateDamage _calculateDamage = new CalculateDamage();
 
-        public async void StartTaskAttack(CharacterUI enemy, CharacterUI character)
+        [field: SerializeField]
+        public CharacterData CharacterData { get; private set; }
+
+        public Character Character { get; private set; }
+
+        public async void StartTaskAttack(AttackEnemy enemy, AttackEnemy character)
         {
             if (CtsAttack == null || CtsAttack.IsCancellationRequested)
             {
@@ -30,20 +42,23 @@ namespace GameScene.Character
             CtsAttack?.Cancel();
         }
 
-        public void InitializeVariables(EndPanelSettings endPanelSettings)
+        public void InitializeVariables(EndPanelSettings endPanelSettings, Character character)
         {
             _endPanelSettings = endPanelSettings;
+            Character = character;
         }
 
-        protected abstract UniTask Perk(CharacterUI enemy, CharacterUI character);
+        protected abstract UniTask Perk(AttackEnemy enemy, AttackEnemy character);
 
-        protected void AddValueToHealthEnemy(int value, CharacterUI enemy)
+        protected void AddValueToHealthEnemy(int value, AttackEnemy enemy)
         {
-            enemy.Character.AddingValueToHealth(value);
-            enemy.HpBar.ChangeHPBar(enemy.Character.HealthEntity.Get(), enemy.Character.MaxHealthEntity.Get());
+            Character.AddingValueToHealth(value);
+
+            if (enemy.ChangeHPBar != null)
+                enemy.ChangeHPBar.Invoke(Character.HealthEntity, Character.MaxHealthEntity);
         }
 
-        private async UniTask TakeDamage(CharacterUI enemy, CharacterUI character)
+        private async UniTask TakeDamage(AttackEnemy enemy, AttackEnemy character)
         {
             do
             {
@@ -52,42 +67,42 @@ namespace GameScene.Character
                     break;
                 }
 
-                int damage = calculateDamage.CalculatingDamage(character, character.Character.OneWayDamageSpread.Get());
+                int damage = _calculateDamage.CalculatingDamage(character, Character.OneWayDamageSpread);
 
                 AddValueToHealthEnemy(damage, enemy);
 
-                await enemy.CreateText($"{damage} HP");
+                enemy.CreateText.Invoke($"{damage} HP");
 
                 CheckHPEnemy(enemy);
 
-                await UniTask.Delay(character.Character.Cooldown.Get() * 1000);
+                await UniTask.Delay(TimeSpan.FromSeconds(Character.Cooldown));
 
-                if (Random.Range(0, 101) < character.Character.PercentagesChancePerk.Get()
+                if (UnityEngine.Random.value < (float)Character.PercentagesChancePerk / 100
                     && !PerkIsActive
                     && enemy != null)
                 {
                     UsePerk(enemy, character);
                 }
 
-                await UniTask.Delay(500);
+                await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
 
             } while (enemy != null);
         }
 
-        private void CheckHPEnemy(CharacterUI enemy)
+        private void CheckHPEnemy(AttackEnemy enemy)
         {
-            if (enemy.Character.HealthEntity.Get() == 0)
+            if (Character.HealthEntity == 0)
             {
-                enemy.DestroyThisObject();
-                _endPanelSettings.ActivateEndPanel(enemy.Character.TextNameEntity);
+                enemy.DestroyCharacter.Invoke();
+                _endPanelSettings.ActivateEndPanel(Character.TextNameEntity);
 
                 StopTaskAttack();
             }
         }
 
-        private async void UsePerk(CharacterUI enemy, CharacterUI character)
+        private async void UsePerk(AttackEnemy enemy, AttackEnemy character)
         {
-            await character.CreateText($"Персонаж использовал перк: {character.Character.TextApplicationsPerk}");
+            character.CreateText.Invoke($"Персонаж использовал перк: {Character.TextApplicationsPerk}");
 
             try
             {

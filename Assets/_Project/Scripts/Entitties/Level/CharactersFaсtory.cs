@@ -1,5 +1,4 @@
-using GameScene.Character;
-using GameScene.HPBars;
+using GameScene.Characters;
 using TMPro;
 using UnityEngine;
 
@@ -8,7 +7,7 @@ namespace GameScene.Level
     public class CharactersFactory : MonoBehaviour
     {
         [SerializeField]
-        private CharacterUI[] _entitiyPrefabs;
+        private AttackEnemy[] _entitiyPrefabs;
 
         [SerializeField]
         private Transform[] _transformsSpawnEntities = new Transform[2];
@@ -25,30 +24,41 @@ namespace GameScene.Level
         [SerializeField]
         private TMP_Text _textPrefab;
 
-        public CharacterUI[] EntitiesInScene { get; private set; } = new CharacterUI[2];
+        [SerializeField]
+        private string[] _namesForEntitys;
+
+        public AttackEnemy[] EntitiesInScene { get; private set; } = new AttackEnemy[2];
 
         public void CreateCharacters()
         {
             for (int i = 0; i < 2; i++)
             {
-                CharacterUI entityForSpawn = _entitiyPrefabs[Random.Range(0, _entitiyPrefabs.Length)];
+                AttackEnemy entityForSpawn = _entitiyPrefabs[Random.Range(0, _entitiyPrefabs.Length)];
 
-                CharacterUI createdObject = Instantiate(entityForSpawn,
+                AttackEnemy createdObject = Instantiate(entityForSpawn,
                     _transformsSpawnEntities[i].position,
                     Quaternion.identity,
                     _transformsSpawnEntities[i]);
                 EntitiesInScene[i] = createdObject;
 
-                EntitiesInScene[i].AttackEnemy.InitializeVariables(_endPanelSettings);
+                string nameEntity = _namesForEntitys[Random.Range(0, _namesForEntitys.Length)];
+                Character character = new Character(EntitiesInScene[i].CharacterData, nameEntity);
+                EntitiesInScene[i].InitializeVariables(_endPanelSettings, character);
 
-                HPBar hpBarCharacter = CreateHPBar(EntitiesInScene[i]);
-                TMP_Text[] poolTextsCharacter = CreatePoolTexts(EntitiesInScene[i], EntitiesInScene[i].CountTextsInPool);
+                if (EntitiesInScene[i].TryGetComponent(out CharacterUI characterUI))
+                {
+                    HPBar hpBarCharacter = CreateHPBar(characterUI, EntitiesInScene[i]);
 
-                EntitiesInScene[i].InitializeVariables(hpBarCharacter, poolTextsCharacter);
+                    TMP_Text[] poolTextsCharacter = CreatePoolTexts(characterUI, characterUI.CountTextsInPool);
+
+                    characterUI.InitializeVariables(hpBarCharacter, poolTextsCharacter);
+                }
+                else
+                    Debug.LogError("CharacterUI у одного из объектов отсутствует!");
             }
 
-            EntitiesInScene[0].AttackEnemy.StartTaskAttack(EntitiesInScene[1], EntitiesInScene[0]);
-            EntitiesInScene[1].AttackEnemy.StartTaskAttack(EntitiesInScene[0], EntitiesInScene[1]);
+            EntitiesInScene[0].StartTaskAttack(EntitiesInScene[1], EntitiesInScene[0]);
+            EntitiesInScene[1].StartTaskAttack(EntitiesInScene[0], EntitiesInScene[1]);
         }
 
         private TMP_Text[] CreatePoolTexts(CharacterUI chareacter, int countTextsInPool)
@@ -63,11 +73,10 @@ namespace GameScene.Level
             return poolTexts;
         }
 
-        public HPBar CreateHPBar(CharacterUI chareacter)
+        private HPBar CreateHPBar(CharacterUI character, AttackEnemy attackEnemyCharacter)
         {
-            HPBar hpBar = Instantiate(_prefabHPBar, chareacter.TransformSpawnHPBar.position, Quaternion.identity, _parentSpawnObjects);
-
-            hpBar.InitializeValues(chareacter.TransformSpawnHPBar);
+            HPBar hpBar = Instantiate(_prefabHPBar, character.TransformSpawnHPBar.position, Quaternion.identity, _parentSpawnObjects);
+            hpBar.InitializeValues(character.TransformSpawnHPBar, attackEnemyCharacter);
 
             return hpBar;
         }

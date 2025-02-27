@@ -1,7 +1,7 @@
 using System.Threading;
 using UnityEngine;
 
-namespace GameScene.Character
+namespace GameScene.Characters
 {
     public class Character
     {
@@ -43,7 +43,7 @@ namespace GameScene.Character
 
         public void AddingValueToHealth(int valueChange)
         {
-            HealthEntity = new IntValue(Mathf.Clamp(HealthEntity.Get() + valueChange, 0, MaxHealthEntity.Get()));
+            HealthEntity = new IntValue(Mathf.Clamp(HealthEntity + valueChange, 0, MaxHealthEntity));
         }
 
         public void ChangeCoefChangeDamage(int newValue)
@@ -55,18 +55,19 @@ namespace GameScene.Character
         }
     }
 
-    public class IntValue
+    public readonly struct IntValue
     {
-        private int value;
+        private readonly int _integer;
 
-        public IntValue(int initialValue)
+        public IntValue(int integer)
         {
-            if (initialValue > 0)
-                value = initialValue;
+            if (integer > 0)
+                _integer = integer;
             else
-                value = 0;
+                _integer = 0;
         }
 
-        public int Get() { return value; }
+        public static implicit operator int(IntValue d) => d._integer;
+        public static explicit operator IntValue(byte b) => new IntValue(b);
     }
 }

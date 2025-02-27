@@ -1,20 +1,20 @@
 using UnityEngine;
 
-namespace GameScene.Character
+namespace GameScene.Characters
 {
     public class CalculateDamage
     {
-        public int CalculatingDamage(CharacterUI character, int oneWayDamageSpread)
+        public int CalculatingDamage(AttackEnemy character, int oneWayDamageSpread)
         {
             int damage;
 
-            if (character.Character.BaseDamage.Get() == 0)
+            if (character.Character.BaseDamage == 0)
             {
                 damage = 0;
             }
             else
             {
-                damage = Random.Range(-character.Character.BaseDamage.Get() - oneWayDamageSpread, -character.Character.BaseDamage.Get() + oneWayDamageSpread) + character.Character.CoefChangeDamage.Get();
+                damage = Random.Range(-character.Character.BaseDamage - oneWayDamageSpread, -character.Character.BaseDamage + oneWayDamageSpread) + character.Character.CoefChangeDamage;
                 if (damage > 0)
                     damage = 0;
             }

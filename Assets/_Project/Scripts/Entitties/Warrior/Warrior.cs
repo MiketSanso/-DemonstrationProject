@@ -1,17 +1,18 @@
 using Cysharp.Threading.Tasks;
+using System;
 
-namespace GameScene.Character.Warrior
+namespace GameScene.Characters.Warrior
 {
     public class Warrior : AttackEnemy
     {
-        protected override async UniTask Perk(CharacterUI enemy, CharacterUI character)
+        protected override async UniTask Perk(AttackEnemy enemy, AttackEnemy character)
         {
-            enemy.AttackEnemy.StopTaskAttack();
+            enemy.StopTaskAttack();
 
-            await UniTask.Delay(character.Character.DurationPerk.Get() * 1000);
+            await UniTask.Delay(TimeSpan.FromSeconds(character.Character.DurationPerk));
 
             if (enemy != null)
-                enemy.AttackEnemy.StartTaskAttack(character, enemy);
+                enemy.StartTaskAttack(character, enemy);
         }
     }
 }

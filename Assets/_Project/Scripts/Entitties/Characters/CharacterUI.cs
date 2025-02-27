@@ -2,9 +2,8 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
-using GameScene.HPBars;
 
-namespace GameScene.Character
+namespace GameScene.Characters
 {
     public class CharacterUI : MonoBehaviour
     {
@@ -15,19 +14,9 @@ namespace GameScene.Character
         private int _speedFlyText;
 
         [SerializeField]
-        private CharacterData _characterData;
-
-        [SerializeField]
-        private string[] _namesForEntitys;
+        private AttackEnemy AttackEnemy;
 
         private TMP_Text[] _poolTexts;
-
-        public HPBar HpBar { get; private set; }
-
-        public Character Character { get; private set; }
-
-        [field: SerializeField]
-        public AttackEnemy AttackEnemy { get; private set; }
 
         [field: SerializeField]
         public int CountTextsInPool { get; private set; }
@@ -37,11 +26,19 @@ namespace GameScene.Character
 
         [field: SerializeField]
         public Transform TransformSpawnText { get; private set; }
+        
+        public HPBar HpBar { get; private set; }
 
-        private void Awake()
+        private void OnEnable()
         {
-            Character = new Character(_characterData,
-            _namesForEntitys[Random.Range(0, _namesForEntitys.Length)]);
+            AttackEnemy.CreateText += StartCreateText;
+            AttackEnemy.DestroyCharacter += DestroyThisObject;
+        }
+
+        private void OnDisable()
+        {
+            AttackEnemy.CreateText -= StartCreateText;
+            AttackEnemy.DestroyCharacter -= DestroyThisObject;
         }
 
         public void InitializeVariables(HPBar hpBar, TMP_Text[] poolTexts)
@@ -63,7 +60,7 @@ namespace GameScene.Character
             Destroy(gameObject);
         }
 
-        public async UniTask CreateText(string textForSpawn)
+        private async UniTask CreateText(string textForSpawn)
         {
             for (int i = 0; i < CountTextsInPool; i++)
             {
@@ -79,6 +76,11 @@ namespace GameScene.Character
                     break;
                 }
             }
+        }
+
+        private async void StartCreateText(string textForSpawn)
+        {
+            await CreateText(textForSpawn);
         }
     }
 }

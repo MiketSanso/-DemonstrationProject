@@ -102,9 +102,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3300339569382611729}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1817ad0ba4fb0b248b8fb580112a87fe, type: 3}
+  m_Script: {fileID: 11500000, guid: 991613cac3415ca4e92f88e28891ce83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <CharacterData>k__BackingField: {fileID: 11400000, guid: 353ccdfbe8a039e439d40a289b3ba43c, type: 2}
   _coefChangeDamage: 3
 --- !u!114 &5923730942000740823
 MonoBehaviour:
@@ -115,17 +116,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3300339569382611729}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f36981e9789f8194e87f8d14b8522752, type: 3}
+  m_Script: {fileID: 11500000, guid: e17d8e85af1efc044add18d882317f7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _heightFlyText: 3
   _speedFlyText: 1
-  _characterData: {fileID: 11400000, guid: 353ccdfbe8a039e439d40a289b3ba43c, type: 2}
-  _namesForEntitys:
-  - 1
-  - 2
-  - 3
-  <AttackEnemy>k__BackingField: {fileID: 1924647831964336213}
+  AttackEnemy: {fileID: 1924647831964336213}
   <CountTextsInPool>k__BackingField: 4
   <TransformSpawnHPBar>k__BackingField: {fileID: 4814239405787415320}
   <TransformSpawnText>k__BackingField: {fileID: 6847372920664774073}

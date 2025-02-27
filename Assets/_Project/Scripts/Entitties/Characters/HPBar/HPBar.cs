@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GameScene.HPBars
+namespace GameScene.Characters
 {
     public class HPBar : MonoBehaviour
     {
@@ -12,6 +12,8 @@ namespace GameScene.HPBars
         [SerializeField]
         private TMP_Text _textHP;
 
+        private AttackEnemy _attackEnemy;
+
         private Transform _transformOverEntity;
 
         private void Update()
@@ -19,9 +21,20 @@ namespace GameScene.HPBars
             transform.position = _transformOverEntity.position;
         }
 
-        public void InitializeValues(Transform tranformEntity)
+        private void Start()
+        {
+            _attackEnemy.ChangeHPBar += ChangeHPBar;
+        }
+
+        private void OnDisable()
+        {
+            _attackEnemy.ChangeHPBar -= ChangeHPBar;
+        }
+
+        public void InitializeValues(Transform tranformEntity, AttackEnemy attackEnemy)
         {
             _transformOverEntity = tranformEntity;
+            _attackEnemy = attackEnemy;
         }
 
         public void ChangeHPBar(int _healthValue, int _maxHealthValue)

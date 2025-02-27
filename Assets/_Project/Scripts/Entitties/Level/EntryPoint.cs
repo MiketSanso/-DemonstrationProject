@@ -1,13 +1,13 @@
-using UnityEngine;
+using Zenject;
 
 namespace GameScene.Level
 {
-    public class EntryPoint : MonoBehaviour
+    public class EntryPoint : IInitializable
     {
-        [SerializeField]
+        [Inject]
         private CharactersFactory _charactersFactory;
 
-        void Start()
+        public void Initialize()
         {
             _charactersFactory.CreateCharacters();
         }

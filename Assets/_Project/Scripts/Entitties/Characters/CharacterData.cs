@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace GameScene.Character
+namespace GameScene.Characters
 {
     [CreateAssetMenu(fileName = "EntityData", menuName = "Entity", order = 51)]
     public class CharacterData : ScriptableObject
