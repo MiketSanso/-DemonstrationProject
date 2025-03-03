@@ -14,7 +14,7 @@ namespace GameScene.Characters
         private int _speedFlyText;
 
         [SerializeField]
-        private AttackEnemy AttackEnemy;
+        private Character _character;
 
         private TMP_Text[] _poolTexts;
 
@@ -31,14 +31,14 @@ namespace GameScene.Characters
 
         private void OnEnable()
         {
-            AttackEnemy.CreateText += StartCreateText;
-            AttackEnemy.DestroyCharacter += DestroyThisObject;
+            _character.OnCreateText += StartCreateText;
+            _character.CharacterDestroyed += DestroyThisObject;
         }
 
         private void OnDisable()
         {
-            AttackEnemy.CreateText -= StartCreateText;
-            AttackEnemy.DestroyCharacter -= DestroyThisObject;
+            _character.OnCreateText -= StartCreateText;
+            _character.CharacterDestroyed -= DestroyThisObject;
         }
 
         public void InitializeVariables(HPBar hpBar, TMP_Text[] poolTexts)
@@ -50,7 +50,6 @@ namespace GameScene.Characters
         public void DestroyThisObject()
         {
             HpBar.DestroyHPBar();
-            AttackEnemy.StopTaskAttack();
 
             for (int i = 0; i < CountTextsInPool; i++)
             {

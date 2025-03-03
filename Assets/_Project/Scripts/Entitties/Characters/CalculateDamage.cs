@@ -4,17 +4,17 @@ namespace GameScene.Characters
 {
     public class CalculateDamage
     {
-        public int CalculatingDamage(AttackEnemy character, int oneWayDamageSpread)
+        public int CalculatingDamage(Character character, int oneWayDamageSpread)
         {
             int damage;
 
-            if (character.Character.BaseDamage == 0)
+            if (character.BaseDamage == 0)
             {
                 damage = 0;
             }
             else
             {
-                damage = Random.Range(-character.Character.BaseDamage - oneWayDamageSpread, -character.Character.BaseDamage + oneWayDamageSpread) + character.Character.CoefChangeDamage;
+                damage = Random.Range(-character.BaseDamage - oneWayDamageSpread, -character.BaseDamage + oneWayDamageSpread) + character.CoefChangeDamage;
                 if (damage > 0)
                     damage = 0;
             }

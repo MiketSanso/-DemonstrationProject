@@ -7,13 +7,13 @@ namespace GameScene.Level
     public class CharactersFactory : MonoBehaviour
     {
         [SerializeField]
-        private AttackEnemy[] _entitiyPrefabs;
+        private Character[] _entitiyPrefabs;
 
         [SerializeField]
         private Transform[] _transformsSpawnEntities = new Transform[2];
 
         [SerializeField]
-        private EndPanelSettings _endPanelSettings;
+        private EndPanel _endPanelSettings;
 
         [SerializeField]
         private Transform _parentSpawnObjects;
@@ -27,15 +27,15 @@ namespace GameScene.Level
         [SerializeField]
         private string[] _namesForEntitys;
 
-        public AttackEnemy[] EntitiesInScene { get; private set; } = new AttackEnemy[2];
+        public Character[] EntitiesInScene { get; private set; } = new Character[2];
 
         public void CreateCharacters()
         {
             for (int i = 0; i < 2; i++)
             {
-                AttackEnemy entityForSpawn = _entitiyPrefabs[Random.Range(0, _entitiyPrefabs.Length)];
+                Character entityForSpawn = _entitiyPrefabs[Random.Range(0, _entitiyPrefabs.Length)];
 
-                AttackEnemy createdObject = Instantiate(entityForSpawn,
+                Character createdObject = Instantiate(entityForSpawn,
                     _transformsSpawnEntities[i].position,
                     Quaternion.identity,
                     _transformsSpawnEntities[i]);

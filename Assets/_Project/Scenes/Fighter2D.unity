@@ -496,6 +496,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 443840369}
+  - component: {fileID: 443840370}
   m_Layer: 5
   m_Name: ParentSpawnedElements
   m_TagString: Untagged
@@ -522,6 +523,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &443840370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443840368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f96ce10d3a1469f4d9c57c4b6503a133, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &481508771
 GameObject:
   m_ObjectHideFlags: 0
@@ -1402,7 +1415,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eda8630c7555c5f43ac1e0cf60ffd83c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _parentSpawnedElements: {fileID: 443840369}
   _charactersFactory: {fileID: 959293216}
 --- !u!1 &1601710878
 GameObject:

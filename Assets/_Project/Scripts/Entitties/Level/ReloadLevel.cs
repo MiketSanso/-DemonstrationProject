@@ -1,5 +1,3 @@
-using GameScene.Characters;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +9,7 @@ namespace GameScene.Level
         private CharactersFactory _charactersFactory;
 
         [SerializeField]
-        private EndPanelSettings _endPanelSettings;
+        private EndPanel _endPanelSettings;
 
         [SerializeField]
         private Button _buttonRestart;
@@ -29,17 +27,12 @@ namespace GameScene.Level
                 {
                     if (_charactersFactory.EntitiesInScene[i] != null)
                     {
-                        if (_charactersFactory.EntitiesInScene[i].TryGetComponent(out CharacterUI characterUI))
-                        {
-                            characterUI.DestroyThisObject();
-                        }
-                        else
-                            Debug.LogError("CharacterUI у одного из объектов отсутствует!");
+                        _charactersFactory.EntitiesInScene[i].StartDestroy();
                     }
                 }
             }
 
-            _endPanelSettings.DeactivateEndPanel();
+            _endPanelSettings.Deactivate();
             _charactersFactory.CreateCharacters();
         }
     }

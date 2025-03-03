@@ -3,16 +3,16 @@ using System;
 
 namespace GameScene.Characters.Warrior
 {
-    public class Warrior : AttackEnemy
+    public class Warrior : Character
     {
-        protected override async UniTask Perk(AttackEnemy enemy, AttackEnemy character)
+        protected override async UniTask Perk(Character enemy)
         {
-            enemy.StopTaskAttack();
+            enemy.StopAttack();
 
-            await UniTask.Delay(TimeSpan.FromSeconds(character.Character.DurationPerk));
+            await UniTask.Delay(TimeSpan.FromSeconds(DurationPerk));
 
             if (enemy != null)
-                enemy.StartTaskAttack(character, enemy);
+                enemy.StartAttack(enemy);
         }
     }
 }

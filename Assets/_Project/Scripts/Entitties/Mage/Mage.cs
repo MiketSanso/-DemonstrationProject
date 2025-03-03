@@ -4,18 +4,18 @@ using UnityEngine;
 
 namespace GameScene.Characters.Mage
 {
-    public class Mage : AttackEnemy
+    public class Mage : Character
     {
         [SerializeField]
         private int _coefChangeDamage;
 
-        protected override async UniTask Perk(AttackEnemy enemy, AttackEnemy character)
+        protected override async UniTask Perk(Character enemy)
         {
-            enemy.Character.ChangeCoefChangeDamage(_coefChangeDamage);
+            enemy.ChangeCoefChangeDamage(_coefChangeDamage);
 
-            await UniTask.Delay(TimeSpan.FromSeconds(character.Character.DurationPerk));
+            await UniTask.Delay(TimeSpan.FromSeconds(DurationPerk));
 
-            enemy.Character.ChangeCoefChangeDamage(0);
+            enemy.ChangeCoefChangeDamage(0);
         }
     }
 }
