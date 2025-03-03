@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using GameScene.Level;
 using System;
 using UnityEngine;
 
@@ -8,6 +9,11 @@ namespace GameScene.Characters.Archer
     {
         [SerializeField]
         private int _toxicDamage;
+
+        public Archer(CharacterScriptableData entityData, string nameEntity, EndPanel endPanelSettings) 
+            : base(entityData, nameEntity, endPanelSettings)
+        {
+        }
 
         protected override async UniTask Perk(Character enemy)
         {

@@ -13,6 +13,6 @@
         }
 
         public static implicit operator int(IntValue d) => d._integer;
-        public static explicit operator IntValue(byte b) => new IntValue(b);
+        public static implicit operator IntValue(int b) => new IntValue(b);
     }
 }

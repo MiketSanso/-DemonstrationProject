@@ -1,5 +1,6 @@
 using GameScene.Characters;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GameScene.Level
@@ -7,13 +8,16 @@ namespace GameScene.Level
     public class CharactersFactory : MonoBehaviour
     {
         [SerializeField]
-        private Character[] _entitiyPrefabs;
+        private CharacterScriptableData[] _charactersData;
+
+        [SerializeField]
+        private CharacterUI _entitiyPrefab;
 
         [SerializeField]
         private Transform[] _transformsSpawnEntities = new Transform[2];
 
         [SerializeField]
-        private EndPanel _endPanelSettings;
+        private EndPanel _endPanel;
 
         [SerializeField]
         private Transform _parentSpawnObjects;
@@ -33,32 +37,35 @@ namespace GameScene.Level
         {
             for (int i = 0; i < 2; i++)
             {
-                Character entityForSpawn = _entitiyPrefabs[Random.Range(0, _entitiyPrefabs.Length)];
-
-                Character createdObject = Instantiate(entityForSpawn,
+                CharacterUI createdObject = Instantiate(_entitiyPrefab,
                     _transformsSpawnEntities[i].position,
                     Quaternion.identity,
                     _transformsSpawnEntities[i]);
-                EntitiesInScene[i] = createdObject;
 
                 string nameEntity = _namesForEntitys[Random.Range(0, _namesForEntitys.Length)];
-                Character character = new Character(EntitiesInScene[i].CharacterData, nameEntity);
-                EntitiesInScene[i].InitializeVariables(_endPanelSettings, character);
+                CharacterScriptableData characterData = _charactersData[Random.Range(0, _charactersData.Length)];
 
-                if (EntitiesInScene[i].TryGetComponent(out CharacterUI characterUI))
-                {
-                    HPBar hpBarCharacter = CreateHPBar(characterUI, EntitiesInScene[i]);
+                //EntitiesInScene[i] = createdObject.AddComponent<Character>(characterData, nameEntity, _endPanel);
 
-                    TMP_Text[] poolTextsCharacter = CreatePoolTexts(characterUI, characterUI.CountTextsInPool);
+                //createdObject.sprite = characterData.SpriteCharacter;
 
-                    characterUI.InitializeVariables(hpBarCharacter, poolTextsCharacter);
-                }
-                else
-                    Debug.LogError("CharacterUI у одного из объектов отсутствует!");
+                HPBar hpBarCharacter = CreateHPBar(createdObject, EntitiesInScene[i]);
+
+                TMP_Text[] poolTextsCharacter = CreatePoolTexts(createdObject, createdObject.CountTextsInPool);
+
+                createdObject.InitializeVariables(hpBarCharacter, poolTextsCharacter);
             }
 
-            EntitiesInScene[0].StartTaskAttack(EntitiesInScene[1], EntitiesInScene[0]);
-            EntitiesInScene[1].StartTaskAttack(EntitiesInScene[0], EntitiesInScene[1]);
+            EntitiesInScene[0].StartAttack(EntitiesInScene[1]);
+            EntitiesInScene[1].StartAttack(EntitiesInScene[0]);
+        }
+
+        private Character[] CreateCharacter(CharacterUI chareacter, int countTextsInPool)
+        {
+            string nameEntity = _namesForEntitys[Random.Range(0, _namesForEntitys.Length)];
+            CharacterScriptableData characterData = _charactersData[Random.Range(0, _charactersData.Length)];
+
+            return null;
         }
 
         private TMP_Text[] CreatePoolTexts(CharacterUI chareacter, int countTextsInPool)
@@ -73,10 +80,10 @@ namespace GameScene.Level
             return poolTexts;
         }
 
-        private HPBar CreateHPBar(CharacterUI character, AttackEnemy attackEnemyCharacter)
+        private HPBar CreateHPBar(CharacterUI character, Character enemy)
         {
             HPBar hpBar = Instantiate(_prefabHPBar, character.TransformSpawnHPBar.position, Quaternion.identity, _parentSpawnObjects);
-            hpBar.InitializeValues(character.TransformSpawnHPBar, attackEnemyCharacter);
+            hpBar.InitializeValues(character.TransformSpawnHPBar, enemy);
 
             return hpBar;
         }

@@ -26,6 +26,12 @@ namespace GameScene.Characters
 
         [field: SerializeField]
         public string TextApplicationsPerk { get; private set; }
+
+        [field: SerializeField] 
+        public Sprite SpriteCharacter { get; private set; }
+
+        [field: SerializeField]
+        public Character Character { get; private set; }
     }
 }
 

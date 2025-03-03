@@ -37,9 +37,6 @@ namespace GameScene.Characters
 
         private CalculateDamage _calculateDamage = new CalculateDamage();
 
-        [field: SerializeField]
-        public CharacterScriptableData CharacterData { get; private set; }
-
         public Character(CharacterScriptableData entityData, string nameEntity, EndPanel endPanelSettings)
         {
             _entityData = entityData;
@@ -50,14 +47,14 @@ namespace GameScene.Characters
 
         private void InitializeElements(string nameEntity)
         {
-            CoefChangeDamage = new IntValue(0);
-            HealthEntity = new IntValue(_entityData.MaxHealthEntity);
-            MaxHealthEntity = new IntValue(_entityData.MaxHealthEntity);
-            Cooldown = new IntValue(_entityData.Cooldown);
-            OneWayDamageSpread = new IntValue(_entityData.OneWayDamageSpread);
-            BaseDamage = new IntValue(_entityData.Damage);
-            DurationPerk = new IntValue(_entityData.DurationPerk);
-            PercentagesChancePerk = new IntValue(Mathf.Clamp(_entityData.PercentagesChancePerk, 0, 100));
+            CoefChangeDamage = 0;
+            HealthEntity = _entityData.MaxHealthEntity;
+            MaxHealthEntity = _entityData.MaxHealthEntity;
+            Cooldown = _entityData.Cooldown;
+            OneWayDamageSpread = _entityData.OneWayDamageSpread;
+            BaseDamage = _entityData.Damage;
+            DurationPerk = _entityData.DurationPerk;
+            PercentagesChancePerk = Mathf.Clamp(_entityData.PercentagesChancePerk, 0, 100);
             TextApplicationsPerk = _entityData.TextApplicationsPerk;
             TextNameEntity = nameEntity;
         }
@@ -132,7 +129,7 @@ namespace GameScene.Characters
 
         private void AddHealthValue(int valueChange)
         {
-            HealthEntity = new IntValue(Mathf.Clamp(HealthEntity + valueChange, 0, MaxHealthEntity));
+            HealthEntity = Mathf.Clamp(HealthEntity + valueChange, 0, MaxHealthEntity);
         }
 
         private async UniTask Attack(Character enemy)
