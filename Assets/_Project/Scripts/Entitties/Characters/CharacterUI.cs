@@ -21,7 +21,7 @@ namespace GameScene.Characters
         private HPBar _hpBar;
 
         [field: SerializeField]
-        public int CountTextsInPool { get; private set; }
+        public int SizePool { get; private set; }
 
         [field: SerializeField]
         public Transform TransformSpawnHPBar { get; private set; }
@@ -32,7 +32,7 @@ namespace GameScene.Characters
         private void OnDisable()
         {
             _character.OnCreateText -= StartCreateText;
-            _character.CharacterDestroyed -= DestroyThisObject;
+            _character.CharacterDestroyed -= Destroy;
         }
 
         public void InitializeVariables(HPBar hpBar, TMP_Text[] poolTexts, Character character)
@@ -44,11 +44,11 @@ namespace GameScene.Characters
             EventSubscription();
         }
 
-        public void DestroyThisObject()
+        public void Destroy()
         {
-            _hpBar.DestroyHPBar();
+            _hpBar.Destroy();
 
-            for (int i = 0; i < CountTextsInPool; i++)
+            for (int i = 0; i < SizePool; i++)
             {
                 Destroy(_poolTexts[i].gameObject);
             }
@@ -59,12 +59,17 @@ namespace GameScene.Characters
         private void EventSubscription()
         {
             _character.OnCreateText += StartCreateText;
-            _character.CharacterDestroyed += DestroyThisObject;
+            _character.CharacterDestroyed += Destroy;
+        }
+
+        private async void StartCreateText(string textForSpawn)
+        {
+            await CreateText(textForSpawn);
         }
 
         private async UniTask CreateText(string textForSpawn)
         {
-            for (int i = 0; i < CountTextsInPool; i++)
+            for (int i = 0; i < SizePool; i++)
             {
                 if (_poolTexts[i].color.a == 0)
                 {
@@ -78,11 +83,6 @@ namespace GameScene.Characters
                     break;
                 }
             }
-        }
-
-        private async void StartCreateText(string textForSpawn)
-        {
-            await CreateText(textForSpawn);
         }
     }
 }

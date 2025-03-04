@@ -16,11 +16,11 @@ namespace GameScene.Characters.Mage
 
         protected override async UniTask Perk(Character enemy)
         {
-            enemy.ChangeCoefChangeDamage(_coefChangeDamage);
+            enemy.ChangeCoefDamage(_coefChangeDamage);
 
             await UniTask.Delay(TimeSpan.FromSeconds(DurationPerk), cancellationToken: CtsPerk.Token);
 
-            enemy.ChangeCoefChangeDamage(0);
+            enemy.ChangeCoefDamage(0);
         }
     }
 }

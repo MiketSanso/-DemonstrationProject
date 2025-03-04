@@ -64,7 +64,7 @@ namespace GameScene.Characters
             TextNameEntity = nameEntity;
         }
 
-        public void ChangeCoefChangeDamage(int newValue)
+        public void ChangeCoefDamage(int newValue)
         {
             if (newValue > 0)
                 CoefChangeDamage = new IntValue(newValue);
@@ -89,7 +89,7 @@ namespace GameScene.Characters
 
         public void TakeDamage(int value)
         {
-            AddHealthValue(value);
+            ChangeHealthValue(value);
 
             OnCreateText.Invoke($"{value} HP");
             HealthChanged.Invoke(HealthEntity, MaxHealthEntity);
@@ -103,7 +103,7 @@ namespace GameScene.Characters
         public void StartDestroy()
         {
             StopAttack();
-            StopUsePerk();
+            StopPerk();
 
             _endPanelSettings.Activate(TextNameEntity);
 
@@ -112,7 +112,7 @@ namespace GameScene.Characters
 
         protected abstract UniTask Perk(Character enemy);
 
-        protected void StopUsePerk()
+        protected void StopPerk()
         {
             CtsPerk?.Cancel();
         }
@@ -144,7 +144,7 @@ namespace GameScene.Characters
             }
         }
 
-        private void AddHealthValue(int valueChange)
+        private void ChangeHealthValue(int valueChange)
         {
             HealthEntity = Mathf.Clamp(HealthEntity + valueChange, 0, MaxHealthEntity);
         }

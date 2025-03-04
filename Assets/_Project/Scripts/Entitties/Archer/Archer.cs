@@ -1,7 +1,6 @@
 using Cysharp.Threading.Tasks;
 using GameScene.Level;
 using System;
-using UnityEngine;
 
 namespace GameScene.Characters.Archer
 {

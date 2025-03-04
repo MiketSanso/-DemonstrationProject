@@ -51,12 +51,12 @@ namespace GameScene.Level
 
                 CharacterScriptableData characterData = _charactersData[Random.Range(0, _charactersData.Length)];
                 string nameEntity = _namesForEntitys[Random.Range(0, _namesForEntitys.Length)];
-                Characters[i] = CreateCharacter(characterData, nameEntity, _endPanel);
+                Characters[i] = ConstructCharacter(characterData, nameEntity, _endPanel);
 
                 CharactersInScene[i].GetComponent<SpriteRenderer>().color = characterData.Color;
 
                 HPBar hpBarCharacter = CreateHPBar(CharactersInScene[i], Characters[i]);
-                TMP_Text[] poolTextsCharacter = CreatePoolTexts(CharactersInScene[i], CharactersInScene[i].CountTextsInPool);
+                TMP_Text[] poolTextsCharacter = CreatePoolTexts(CharactersInScene[i], CharactersInScene[i].SizePool);
                 CharactersInScene[i].InitializeVariables(hpBarCharacter, poolTextsCharacter, Characters[i]);
             }
 
@@ -64,7 +64,7 @@ namespace GameScene.Level
             Characters[1].StartAttack(Characters[0]);
         }
 
-        private Character CreateCharacter(CharacterScriptableData characterData, string nameCharacter, EndPanel endPanel)
+        private Character ConstructCharacter(CharacterScriptableData characterData, string nameCharacter, EndPanel endPanel)
         {
             if (characterData.CharacterType == CharacterType.Warrior)
             {
