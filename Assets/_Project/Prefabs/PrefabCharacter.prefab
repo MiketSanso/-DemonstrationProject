@@ -106,7 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _heightFlyText: 3
   _speedFlyText: 1
-  <CountTextsInPool>k__BackingField: 4
+  <SizePool>k__BackingField: 4
   <TransformSpawnHPBar>k__BackingField: {fileID: 5213523484659567694}
   <TransformSpawnText>k__BackingField: {fileID: 3030884612407138739}
 --- !u!61 &2713806198433595835

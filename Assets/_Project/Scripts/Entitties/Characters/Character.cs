@@ -12,28 +12,26 @@ namespace GameScene.Characters
 
         public event Action<string> OnCreateText;
 
-        public event Action<int, int> HealthChanged;
-
-        public IntValue BaseDamage { get; private set; }
+        public IntValue Damage { get; private set; }
         public IntValue CoefChangeDamage { get; private set; }
         public IntValue Cooldown { get; private set; }
         public IntValue OneWayDamageSpread { get; private set; }
         public IntValue HealthEntity { get; private set; }
         public IntValue MaxHealthEntity { get; private set; }
         public IntValue DurationPerk { get; private set; }
-        public IntValue PercentagesChancePerk { get; private set; }
+        public IntValue ChancePerk { get; private set; }
 
-        public string TextApplicationsPerk { get; private set; }
+        public string NamePerk { get; private set; }
 
-        public string TextNameEntity { get; private set; }
+        public string NameEntity { get; private set; }
 
-        protected CancellationTokenSource CtsAttack;
+        protected CancellationTokenSource TokenSourceAttack;
 
-        protected CancellationTokenSource CtsPerk;
+        protected CancellationTokenSource TokenSourcePerk;
 
         protected bool IsPerkActive = false;
 
-        private EndPanel _endPanelSettings;
+        private EndPanel _endPanel;
 
         private CharacterScriptableData _entityData;
 
@@ -47,7 +45,7 @@ namespace GameScene.Characters
             _entityData = entityData;
             InitializeElements(nameEntity);
 
-            _endPanelSettings = endPanelSettings;
+            _endPanel = endPanelSettings;
         }
 
         private void InitializeElements(string nameEntity)
@@ -57,26 +55,24 @@ namespace GameScene.Characters
             MaxHealthEntity = new IntValue(_entityData.MaxHealthEntity);
             Cooldown = new IntValue(_entityData.Cooldown);
             OneWayDamageSpread = new IntValue(_entityData.OneWayDamageSpread);
-            BaseDamage = new IntValue(_entityData.Damage);
+            Damage = new IntValue(_entityData.Damage);
             DurationPerk = new IntValue(_entityData.DurationPerk);
-            PercentagesChancePerk = new IntValue(Mathf.Clamp(_entityData.PercentagesChancePerk, 0, 100));
-            TextApplicationsPerk = _entityData.TextApplicationsPerk;
-            TextNameEntity = nameEntity;
+            ChancePerk = new IntValue(Mathf.Clamp(_entityData.PercentagesChancePerk, 0, 100));
+            NamePerk = _entityData.TextApplicationsPerk;
+            NameEntity = nameEntity;
         }
 
         public void ChangeCoefDamage(int newValue)
         {
-            if (newValue > 0)
-                CoefChangeDamage = new IntValue(newValue);
-            else
-                CoefChangeDamage = new IntValue(0);
+            newValue = Math.Max(0, newValue);
+            CoefChangeDamage = new IntValue(Math.Max(0, newValue));
         }
 
         public async void StartAttack(Character enemy)
         {
-            if (CtsAttack == null || CtsAttack.IsCancellationRequested)
+            if (TokenSourceAttack == null || TokenSourceAttack.IsCancellationRequested)
             {
-                CtsAttack = new CancellationTokenSource();
+                TokenSourceAttack = new CancellationTokenSource();
             }
 
             await Attack(enemy);
@@ -84,15 +80,14 @@ namespace GameScene.Characters
 
         public void StopAttack()
         {
-            CtsAttack?.Cancel();
+            TokenSourceAttack?.Cancel();
         }
 
         public void TakeDamage(int value)
         {
-            ChangeHealthValue(value);
+            ChangeHealth(value);
 
             OnCreateText.Invoke($"{value} HP");
-            HealthChanged.Invoke(HealthEntity, MaxHealthEntity);
 
             if (HealthEntity == 0)
             {
@@ -105,7 +100,7 @@ namespace GameScene.Characters
             StopAttack();
             StopPerk();
 
-            _endPanelSettings.Activate(TextNameEntity);
+            _endPanel.Activate(NameEntity);
 
             CharacterDestroyed.Invoke();
         }
@@ -114,23 +109,23 @@ namespace GameScene.Characters
 
         protected void StopPerk()
         {
-            CtsPerk?.Cancel();
+            TokenSourcePerk?.Cancel();
         }
 
         private async void TryUsePerk(Character enemy)
         {
             float randomValue = UnityEngine.Random.value;
 
-            if (randomValue < (float)PercentagesChancePerk / 100
+            if (randomValue < (float)ChancePerk / 100
                 && !IsPerkActive
                 && enemy != null)
             {
-                if (CtsPerk == null || CtsPerk.IsCancellationRequested)
+                if (TokenSourcePerk == null || TokenSourcePerk.IsCancellationRequested)
                 {
-                    CtsPerk = new CancellationTokenSource();
+                    TokenSourcePerk = new CancellationTokenSource();
                 }
 
-                OnCreateText.Invoke($"Персонаж использовал перк: {TextApplicationsPerk}");
+                OnCreateText.Invoke($"Персонаж использовал перк: {NamePerk}");
 
                 try
                 {
@@ -144,29 +139,30 @@ namespace GameScene.Characters
             }
         }
 
-        private void ChangeHealthValue(int valueChange)
+        private void ChangeHealth(int valueChange)
         {
-            HealthEntity = Mathf.Clamp(HealthEntity + valueChange, 0, MaxHealthEntity);
+            int newHealth = Mathf.Clamp(HealthEntity + valueChange, 0, MaxHealthEntity);
+            HealthEntity.Set(newHealth);
         }
 
         private async UniTask Attack(Character enemy)
         {
             do
             {
-                if (enemy.HealthEntity == 0 || CtsAttack == null || CtsAttack.IsCancellationRequested)
+                if (enemy.HealthEntity == 0 || TokenSourceAttack == null || TokenSourceAttack.IsCancellationRequested)
                     break;
 
-                int damage = _calculateDamage.CalculatingDamage(this, OneWayDamageSpread);
+                int damage = _calculateDamage.Calculating(this, OneWayDamageSpread);
 
                 enemy.TakeDamage(damage);
 
-                await UniTask.Delay(TimeSpan.FromSeconds(Cooldown), cancellationToken: CtsAttack.Token);
+                await UniTask.Delay(TimeSpan.FromSeconds(Cooldown), cancellationToken: TokenSourceAttack.Token);
 
                 TryUsePerk(enemy);
 
-                await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: CtsAttack.Token);
+                await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: TokenSourceAttack.Token);
 
-            } while (CtsAttack != null && !CtsAttack.IsCancellationRequested);
+            } while (TokenSourceAttack != null && !TokenSourceAttack.IsCancellationRequested);
         }
     }
 }

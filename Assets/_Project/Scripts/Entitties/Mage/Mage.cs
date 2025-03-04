@@ -18,7 +18,7 @@ namespace GameScene.Characters.Mage
         {
             enemy.ChangeCoefDamage(_coefChangeDamage);
 
-            await UniTask.Delay(TimeSpan.FromSeconds(DurationPerk), cancellationToken: CtsPerk.Token);
+            await UniTask.Delay(TimeSpan.FromSeconds(DurationPerk), cancellationToken: TokenSourcePerk.Token);
 
             enemy.ChangeCoefDamage(0);
         }

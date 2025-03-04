@@ -1,18 +1,24 @@
-﻿namespace GameScene.Characters
+﻿using System;
+
+namespace GameScene.Characters
 {
-    public readonly struct IntValue
+    public class IntValue
     {
-        private readonly int _integer;
+        public Action<int> OnChanged;
+
+        private int _value;
 
         public IntValue(int integer)
         {
-            if (integer > 0)
-                _integer = integer;
-            else
-                _integer = 0;
+            Set(integer);
         }
 
-        public static implicit operator int(IntValue d) => d._integer;
-        public static implicit operator IntValue(int b) => new IntValue(b);
+        public void Set(int value)
+        {
+            _value = Math.Max(0, value);
+            OnChanged?.Invoke(_value);
+        }
+
+        public static implicit operator int(IntValue d) => d._value;
     }
 }
