@@ -29,6 +29,8 @@ namespace GameScene.Characters
 
         protected CancellationTokenSource CtsAttack;
 
+        protected CancellationTokenSource CtsPerk;
+
         protected bool IsPerkActive = false;
 
         private EndPanel _endPanelSettings;
@@ -36,6 +38,9 @@ namespace GameScene.Characters
         private CharacterScriptableData _entityData;
 
         private CalculateDamage _calculateDamage = new CalculateDamage();
+
+        [field: SerializeField]
+        public CharacterScriptableData CharacterData { get; private set; }
 
         public Character(CharacterScriptableData entityData, string nameEntity, EndPanel endPanelSettings)
         {
@@ -47,14 +52,14 @@ namespace GameScene.Characters
 
         private void InitializeElements(string nameEntity)
         {
-            CoefChangeDamage = 0;
-            HealthEntity = _entityData.MaxHealthEntity;
-            MaxHealthEntity = _entityData.MaxHealthEntity;
-            Cooldown = _entityData.Cooldown;
-            OneWayDamageSpread = _entityData.OneWayDamageSpread;
-            BaseDamage = _entityData.Damage;
-            DurationPerk = _entityData.DurationPerk;
-            PercentagesChancePerk = Mathf.Clamp(_entityData.PercentagesChancePerk, 0, 100);
+            CoefChangeDamage = new IntValue(0);
+            HealthEntity = new IntValue(_entityData.MaxHealthEntity);
+            MaxHealthEntity = new IntValue(_entityData.MaxHealthEntity);
+            Cooldown = new IntValue(_entityData.Cooldown);
+            OneWayDamageSpread = new IntValue(_entityData.OneWayDamageSpread);
+            BaseDamage = new IntValue(_entityData.Damage);
+            DurationPerk = new IntValue(_entityData.DurationPerk);
+            PercentagesChancePerk = new IntValue(Mathf.Clamp(_entityData.PercentagesChancePerk, 0, 100));
             TextApplicationsPerk = _entityData.TextApplicationsPerk;
             TextNameEntity = nameEntity;
         }
@@ -86,8 +91,8 @@ namespace GameScene.Characters
         {
             AddHealthValue(value);
 
-            if (HealthChanged != null)
-                HealthChanged.Invoke(HealthEntity, MaxHealthEntity);
+            OnCreateText.Invoke($"{value} HP");
+            HealthChanged.Invoke(HealthEntity, MaxHealthEntity);
 
             if (HealthEntity == 0)
             {
@@ -98,12 +103,19 @@ namespace GameScene.Characters
         public void StartDestroy()
         {
             StopAttack();
+            StopUsePerk();
+
             _endPanelSettings.Activate(TextNameEntity);
 
             CharacterDestroyed.Invoke();
         }
 
         protected abstract UniTask Perk(Character enemy);
+
+        protected void StopUsePerk()
+        {
+            CtsPerk?.Cancel();
+        }
 
         private async void TryUsePerk(Character enemy)
         {
@@ -113,6 +125,11 @@ namespace GameScene.Characters
                 && !IsPerkActive
                 && enemy != null)
             {
+                if (CtsPerk == null || CtsPerk.IsCancellationRequested)
+                {
+                    CtsPerk = new CancellationTokenSource();
+                }
+
                 OnCreateText.Invoke($"Персонаж использовал перк: {TextApplicationsPerk}");
 
                 try
@@ -136,17 +153,18 @@ namespace GameScene.Characters
         {
             do
             {
+                if (enemy.HealthEntity == 0 || CtsAttack == null || CtsAttack.IsCancellationRequested)
+                    break;
+
                 int damage = _calculateDamage.CalculatingDamage(this, OneWayDamageSpread);
 
-                enemy.AddHealthValue(damage);
+                enemy.TakeDamage(damage);
 
-                OnCreateText.Invoke($"{damage} HP");
-
-                await UniTask.Delay(TimeSpan.FromSeconds(Cooldown));
+                await UniTask.Delay(TimeSpan.FromSeconds(Cooldown), cancellationToken: CtsAttack.Token);
 
                 TryUsePerk(enemy);
 
-                await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
+                await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: CtsAttack.Token);
 
             } while (CtsAttack != null && !CtsAttack.IsCancellationRequested);
         }

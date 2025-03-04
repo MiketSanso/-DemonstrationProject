@@ -21,11 +21,6 @@ namespace GameScene.Characters
             transform.position = _transformOverEntity.position;
         }
 
-        private void Start()
-        {
-            _character.HealthChanged += ChangeHPBar;
-        }
-
         private void OnDisable()
         {
             _character.HealthChanged -= ChangeHPBar;
@@ -35,6 +30,8 @@ namespace GameScene.Characters
         {
             _transformOverEntity = tranformEntity;
             _character = character;
+
+            EventSubscription();
         }
 
         public void ChangeHPBar(int _healthValue, int _maxHealthValue)
@@ -46,6 +43,11 @@ namespace GameScene.Characters
         public void DestroyHPBar()
         {
             Destroy(gameObject);
+        }
+
+        private void EventSubscription()
+        {
+            _character.HealthChanged += ChangeHPBar;
         }
     }
 }

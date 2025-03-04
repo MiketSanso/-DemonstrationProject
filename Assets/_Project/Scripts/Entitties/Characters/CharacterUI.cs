@@ -18,6 +18,8 @@ namespace GameScene.Characters
 
         private TMP_Text[] _poolTexts;
 
+        private HPBar _hpBar;
+
         [field: SerializeField]
         public int CountTextsInPool { get; private set; }
 
@@ -26,14 +28,6 @@ namespace GameScene.Characters
 
         [field: SerializeField]
         public Transform TransformSpawnText { get; private set; }
-        
-        public HPBar HpBar { get; private set; }
-
-        private void OnEnable()
-        {
-            _character.OnCreateText += StartCreateText;
-            _character.CharacterDestroyed += DestroyThisObject;
-        }
 
         private void OnDisable()
         {
@@ -41,15 +35,18 @@ namespace GameScene.Characters
             _character.CharacterDestroyed -= DestroyThisObject;
         }
 
-        public void InitializeVariables(HPBar hpBar, TMP_Text[] poolTexts)
+        public void InitializeVariables(HPBar hpBar, TMP_Text[] poolTexts, Character character)
         {
-            HpBar = hpBar;
+            _hpBar = hpBar;
             _poolTexts = poolTexts;
+            _character = character;
+
+            EventSubscription();
         }
 
         public void DestroyThisObject()
         {
-            HpBar.DestroyHPBar();
+            _hpBar.DestroyHPBar();
 
             for (int i = 0; i < CountTextsInPool; i++)
             {
@@ -57,6 +54,12 @@ namespace GameScene.Characters
             }
 
             Destroy(gameObject);
+        }
+
+        private void EventSubscription()
+        {
+            _character.OnCreateText += StartCreateText;
+            _character.CharacterDestroyed += DestroyThisObject;
         }
 
         private async UniTask CreateText(string textForSpawn)

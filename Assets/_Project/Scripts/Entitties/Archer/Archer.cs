@@ -7,13 +7,9 @@ namespace GameScene.Characters.Archer
 {
     public class Archer : Character
     {
-        [SerializeField]
-        private int _toxicDamage;
-
-        public Archer(CharacterScriptableData entityData, string nameEntity, EndPanel endPanelSettings) 
+        public Archer(CharacterScriptableData entityData, string nameEntity, EndPanel endPanelSettings)
             : base(entityData, nameEntity, endPanelSettings)
-        {
-        }
+        { }
 
         protected override async UniTask Perk(Character enemy)
         {
@@ -21,12 +17,15 @@ namespace GameScene.Characters.Archer
 
             do
             {
-                enemy.TakeDamage(-_toxicDamage);
+                if (enemy.HealthEntity == 0)
+                    break;
 
-                await UniTask.Delay(TimeSpan.FromSeconds(1));
+                enemy.TakeDamage(-BaseDamage);
+
+                await UniTask.Delay(TimeSpan.FromSeconds(1), cancellationToken: CtsPerk.Token);
 
                 timeToxicDamage -= 1;
-            } while (timeToxicDamage != 0);
+            } while (timeToxicDamage != 0 && CtsPerk != null && !CtsPerk.IsCancellationRequested);
 
             IsPerkActive = false;
         }

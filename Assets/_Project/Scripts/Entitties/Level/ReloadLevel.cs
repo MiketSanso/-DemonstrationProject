@@ -21,13 +21,13 @@ namespace GameScene.Level
 
         public void ReloadingLevel()
         {
-            if (_charactersFactory.EntitiesInScene != null)
+            if (_charactersFactory.CharactersInScene != null)
             {
-                for (int i = 0; i < _charactersFactory.EntitiesInScene.Length; i++)
+                for (int i = 0; i < _charactersFactory.CharactersInScene.Length; i++)
                 {
-                    if (_charactersFactory.EntitiesInScene[i] != null)
+                    if (_charactersFactory.CharactersInScene[i] != null)
                     {
-                        _charactersFactory.EntitiesInScene[i].StartDestroy();
+                        _charactersFactory.Characters[i].StartDestroy();
                     }
                 }
             }
