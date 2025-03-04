@@ -14,7 +14,7 @@ namespace GameScene.Characters.Warrior
         {
             enemy.StopAttack();
 
-            await UniTask.Delay(TimeSpan.FromSeconds(DurationPerk), cancellationToken: CtsPerk.Token);
+            await UniTask.Delay(TimeSpan.FromSeconds(DurationPerk), cancellationToken: TokenSourcePerk.Token);
 
             enemy.StartAttack(enemy);
         }

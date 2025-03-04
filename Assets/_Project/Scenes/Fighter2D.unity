@@ -1238,28 +1238,24 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 71882138ec6c3054987dc6011e4e1acc, type: 2}
   - {fileID: 11400000, guid: 353ccdfbe8a039e439d40a289b3ba43c, type: 2}
   - {fileID: 11400000, guid: b812dc1648b9d854986fca0ada9e5bfd, type: 2}
-  _transformsSpawnEntities:
+  _transformsSpawn:
   - {fileID: 1601710879}
   - {fileID: 1957742870}
   _endPanel: {fileID: 1118216775}
-  _parentSpawnObjects: {fileID: 443840369}
+  _parentSpawnUI: {fileID: 443840369}
   _prefabHPBar: {fileID: 7925398308761915718, guid: e2835cbb1b55188459315c498b3ab54c, type: 3}
   _textPrefab: {fileID: 4108277758879077828, guid: ba327c87d7148ed4ebef7591b11fdecd, type: 3}
-  _namesForEntitys:
-  - "\u0410\u0440\u0441\u0435\u043D"
-  - "\u0415\u0433\u043E\u0440"
-  - "\u0412\u043B\u0430\u0434"
-  - "\u0414\u0435\u043C\u0435\u0442\u0440\u0438\u0439"
-  - "\u0427\u0438\u043C\u0438\u0442"
+  _namesForCharacter:
+  - "\u0410\u043D\u0434\u0440\u0435\u0439"
   - "\u0413\u043B\u0435\u0431"
-  - "\u0415\u0432\u0441\u0442\u0435\u0441\u043B\u0430\u0432"
-  - "\u0411\u0443\u0433\u0435\u0439"
+  - "\u041A\u043E\u043B\u044F"
   - "\u0410\u043D\u0442\u043E\u043D"
-  - "\u0410\u043B\u0435\u043A\u0441\u0435\u0439"
-  - "\u041C\u0438\u0445\u0430\u0438\u043B"
-  <CharactersInScene>k__BackingField:
-  - {fileID: 0}
-  - {fileID: 0}
+  - "\u0421\u0430\u043D\u044F"
+  - "\u041C\u0438\u0448\u0430"
+  - "\u0410\u0440\u0441\u0435\u043D"
+  - "\u0414\u0430\u043D\u0438\u0438\u043B"
+  - "\u0412\u0435\u0440\u0432\u043E\u043B\u044C\u0444"
+  - "\u0413\u0435\u043A\u0441\u0435\u043B\u044C"
 --- !u!1 &1118216773
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,12 +19,12 @@ namespace GameScene.Characters.Archer
                 if (enemy.HealthEntity == 0)
                     break;
 
-                enemy.TakeDamage(-BaseDamage);
+                enemy.TakeDamage(-Damage);
 
-                await UniTask.Delay(TimeSpan.FromSeconds(1), cancellationToken: CtsPerk.Token);
+                await UniTask.Delay(TimeSpan.FromSeconds(1), cancellationToken: TokenSourcePerk.Token);
 
                 timeToxicDamage -= 1;
-            } while (timeToxicDamage != 0 && CtsPerk != null && !CtsPerk.IsCancellationRequested);
+            } while (timeToxicDamage != 0 && TokenSourcePerk != null && !TokenSourcePerk.IsCancellationRequested);
 
             IsPerkActive = false;
         }

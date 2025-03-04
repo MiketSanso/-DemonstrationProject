@@ -16,13 +16,13 @@ namespace GameScene.Level
         private CharacterScriptableData[] _charactersData;
 
         [SerializeField]
-        private Transform[] _transformsSpawnEntities = new Transform[2];
+        private Transform[] _transformsSpawn = new Transform[2];
 
         [SerializeField]
         private EndPanel _endPanel;
 
         [SerializeField]
-        private Transform _parentSpawnObjects;
+        private Transform _parentSpawnUI;
 
         [SerializeField]
         private HPBar _prefabHPBar;
@@ -31,11 +31,10 @@ namespace GameScene.Level
         private TMP_Text _textPrefab;
 
         [SerializeField]
-        private string[] _namesForEntitys;
+        private string[] _namesForCharacter;
 
         public Character[] Characters { get; private set; }
 
-        [field: SerializeField]
         public CharacterUI[] CharactersInScene { get; private set; } = new CharacterUI[2];
 
         public void CreateCharacters()
@@ -45,12 +44,12 @@ namespace GameScene.Level
             for (int i = 0; i < 2; i++)
             {
                 CharactersInScene[i] = Instantiate(_entitiyPrefab,
-                    _transformsSpawnEntities[i].position,
+                    _transformsSpawn[i].position,
                     Quaternion.identity,
-                    _transformsSpawnEntities[i]);
+                    _transformsSpawn[i]);
 
                 CharacterScriptableData characterData = _charactersData[Random.Range(0, _charactersData.Length)];
-                string nameEntity = _namesForEntitys[Random.Range(0, _namesForEntitys.Length)];
+                string nameEntity = _namesForCharacter[Random.Range(0, _namesForCharacter.Length)];
                 Characters[i] = ConstructCharacter(characterData, nameEntity, _endPanel);
 
                 CharactersInScene[i].GetComponent<SpriteRenderer>().color = characterData.Color;
@@ -91,7 +90,7 @@ namespace GameScene.Level
 
             for (int i = 0; i < countTextsInPool; i++)
             {
-                poolTexts[i] = Instantiate(_textPrefab, chareacter.TransformSpawnText.position, Quaternion.identity, _parentSpawnObjects);
+                poolTexts[i] = Instantiate(_textPrefab, chareacter.TransformSpawnText.position, Quaternion.identity, _parentSpawnUI);
             }
 
             return poolTexts;
@@ -99,7 +98,7 @@ namespace GameScene.Level
 
         private HPBar CreateHPBar(CharacterUI characterUI, Character character)
         {
-            HPBar hpBar = Instantiate(_prefabHPBar, characterUI.TransformSpawnHPBar.position, Quaternion.identity, _parentSpawnObjects);
+            HPBar hpBar = Instantiate(_prefabHPBar, characterUI.TransformSpawnHPBar.position, Quaternion.identity, _parentSpawnUI);
             hpBar.InitializeValues(characterUI.TransformSpawnHPBar, character);
 
             return hpBar;

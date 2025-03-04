@@ -23,7 +23,7 @@ namespace GameScene.Characters
 
         private void OnDisable()
         {
-            _character.HealthChanged -= Change;
+            _character.HealthEntity.OnChanged -= Change;
         }
 
         public void InitializeValues(Transform tranformEntity, Character character)
@@ -34,10 +34,10 @@ namespace GameScene.Characters
             EventSubscription();
         }
 
-        public void Change(int _healthValue, int _maxHealthValue)
+        public void Change(int _healthValue)
         {
             _textHP.text = _healthValue.ToString() + " HP";
-            _sliderHP.value = (float)_healthValue / (float)_maxHealthValue;
+            _sliderHP.value = (float)_healthValue / (float)_character.MaxHealthEntity;
         }
 
         public void Destroy()
@@ -47,7 +47,7 @@ namespace GameScene.Characters
 
         private void EventSubscription()
         {
-            _character.HealthChanged += Change;
+            _character.HealthEntity.OnChanged += Change;
         }
     }
 }
