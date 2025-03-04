@@ -1,28 +1,32 @@
 using Cysharp.Threading.Tasks;
+using GameScene.Level;
 using System;
-using UnityEngine;
 
 namespace GameScene.Characters.Archer
 {
-    public class Archer : AttackEnemy
+    public class Archer : Character
     {
-        [SerializeField]
-        private int _toxicDamage;
+        public Archer(CharacterScriptableData entityData, string nameEntity, EndPanel endPanelSettings)
+            : base(entityData, nameEntity, endPanelSettings)
+        { }
 
-        protected override async UniTask Perk(AttackEnemy enemy, AttackEnemy character)
+        protected override async UniTask Perk(Character enemy)
         {
-            int timeToxicDamage = character.Character.DurationPerk;
+            int timeToxicDamage = DurationPerk;
 
             do
             {
-                AddValueToHealthEnemy(-_toxicDamage, enemy);
+                if (enemy.HealthEntity == 0)
+                    break;
 
-                await UniTask.Delay(TimeSpan.FromSeconds(1));
+                enemy.TakeDamage(-BaseDamage);
+
+                await UniTask.Delay(TimeSpan.FromSeconds(1), cancellationToken: CtsPerk.Token);
 
                 timeToxicDamage -= 1;
-            } while (timeToxicDamage != 0);
+            } while (timeToxicDamage != 0 && CtsPerk != null && !CtsPerk.IsCancellationRequested);
 
-            PerkIsActive = false;
+            IsPerkActive = false;
         }
     }
 }

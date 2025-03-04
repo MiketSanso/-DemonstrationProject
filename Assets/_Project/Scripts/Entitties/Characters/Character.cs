@@ -1,11 +1,19 @@
+using Cysharp.Threading.Tasks;
+using GameScene.Level;
+using System;
 using System.Threading;
 using UnityEngine;
 
 namespace GameScene.Characters
 {
-    public class Character
+    public abstract class Character
     {
-        private CharacterData _entityData;
+        public event Action CharacterDestroyed;
+
+        public event Action<string> OnCreateText;
+
+        public event Action<int, int> HealthChanged;
+
         public IntValue BaseDamage { get; private set; }
         public IntValue CoefChangeDamage { get; private set; }
         public IntValue Cooldown { get; private set; }
@@ -19,12 +27,27 @@ namespace GameScene.Characters
 
         public string TextNameEntity { get; private set; }
 
-        protected CancellationTokenSource Cts;
+        protected CancellationTokenSource CtsAttack;
 
-        public Character(CharacterData entityData, string nameEntity)
+        protected CancellationTokenSource CtsPerk;
+
+        protected bool IsPerkActive = false;
+
+        private EndPanel _endPanelSettings;
+
+        private CharacterScriptableData _entityData;
+
+        private CalculateDamage _calculateDamage = new CalculateDamage();
+
+        [field: SerializeField]
+        public CharacterScriptableData CharacterData { get; private set; }
+
+        public Character(CharacterScriptableData entityData, string nameEntity, EndPanel endPanelSettings)
         {
             _entityData = entityData;
             InitializeElements(nameEntity);
+
+            _endPanelSettings = endPanelSettings;
         }
 
         private void InitializeElements(string nameEntity)
@@ -41,33 +64,109 @@ namespace GameScene.Characters
             TextNameEntity = nameEntity;
         }
 
-        public void AddingValueToHealth(int valueChange)
-        {
-            HealthEntity = new IntValue(Mathf.Clamp(HealthEntity + valueChange, 0, MaxHealthEntity));
-        }
-
-        public void ChangeCoefChangeDamage(int newValue)
+        public void ChangeCoefDamage(int newValue)
         {
             if (newValue > 0)
                 CoefChangeDamage = new IntValue(newValue);
             else
                 CoefChangeDamage = new IntValue(0);
         }
-    }
 
-    public readonly struct IntValue
-    {
-        private readonly int _integer;
-
-        public IntValue(int integer)
+        public async void StartAttack(Character enemy)
         {
-            if (integer > 0)
-                _integer = integer;
-            else
-                _integer = 0;
+            if (CtsAttack == null || CtsAttack.IsCancellationRequested)
+            {
+                CtsAttack = new CancellationTokenSource();
+            }
+
+            await Attack(enemy);
         }
 
-        public static implicit operator int(IntValue d) => d._integer;
-        public static explicit operator IntValue(byte b) => new IntValue(b);
+        public void StopAttack()
+        {
+            CtsAttack?.Cancel();
+        }
+
+        public void TakeDamage(int value)
+        {
+            ChangeHealthValue(value);
+
+            OnCreateText.Invoke($"{value} HP");
+            HealthChanged.Invoke(HealthEntity, MaxHealthEntity);
+
+            if (HealthEntity == 0)
+            {
+                StartDestroy();
+            }
+        }
+
+        public void StartDestroy()
+        {
+            StopAttack();
+            StopPerk();
+
+            _endPanelSettings.Activate(TextNameEntity);
+
+            CharacterDestroyed.Invoke();
+        }
+
+        protected abstract UniTask Perk(Character enemy);
+
+        protected void StopPerk()
+        {
+            CtsPerk?.Cancel();
+        }
+
+        private async void TryUsePerk(Character enemy)
+        {
+            float randomValue = UnityEngine.Random.value;
+
+            if (randomValue < (float)PercentagesChancePerk / 100
+                && !IsPerkActive
+                && enemy != null)
+            {
+                if (CtsPerk == null || CtsPerk.IsCancellationRequested)
+                {
+                    CtsPerk = new CancellationTokenSource();
+                }
+
+                OnCreateText.Invoke($"Персонаж использовал перк: {TextApplicationsPerk}");
+
+                try
+                {
+                    IsPerkActive = true;
+                    await Perk(enemy);
+                }
+                finally
+                {
+                    IsPerkActive = false;
+                }
+            }
+        }
+
+        private void ChangeHealthValue(int valueChange)
+        {
+            HealthEntity = Mathf.Clamp(HealthEntity + valueChange, 0, MaxHealthEntity);
+        }
+
+        private async UniTask Attack(Character enemy)
+        {
+            do
+            {
+                if (enemy.HealthEntity == 0 || CtsAttack == null || CtsAttack.IsCancellationRequested)
+                    break;
+
+                int damage = _calculateDamage.CalculatingDamage(this, OneWayDamageSpread);
+
+                enemy.TakeDamage(damage);
+
+                await UniTask.Delay(TimeSpan.FromSeconds(Cooldown), cancellationToken: CtsAttack.Token);
+
+                TryUsePerk(enemy);
+
+                await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: CtsAttack.Token);
+
+            } while (CtsAttack != null && !CtsAttack.IsCancellationRequested);
+        }
     }
 }

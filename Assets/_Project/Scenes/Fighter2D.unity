@@ -496,6 +496,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 443840369}
+  - component: {fileID: 443840370}
   m_Layer: 5
   m_Name: ParentSpawnedElements
   m_TagString: Untagged
@@ -522,6 +523,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &443840370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443840368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f96ce10d3a1469f4d9c57c4b6503a133, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &481508771
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,7 +546,7 @@ GameObject:
   - component: {fileID: 481508772}
   - component: {fileID: 481508773}
   m_Layer: 0
-  m_Name: ReloadLevel
+  m_Name: ScriptReloadLevel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1187,7 +1200,7 @@ GameObject:
   - component: {fileID: 959293215}
   - component: {fileID: 959293216}
   m_Layer: 0
-  m_Name: CharactersFactory
+  m_Name: ScriptCharactersFactory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1220,14 +1233,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5474bbb1951db3e49bf83eb198650366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _entitiyPrefabs:
-  - {fileID: 7428683926517838016, guid: 0e5a3475a06bcfa4792c87f40c4c681a, type: 3}
-  - {fileID: 1924647831964336213, guid: 01ccc4ca3cb3ac24eaf07ddae43b22d2, type: 3}
-  - {fileID: 4661283280878822182, guid: a1068d801ec2aae49965dff087148ebe, type: 3}
+  _entitiyPrefab: {fileID: 656814496093202204, guid: 0e5a3475a06bcfa4792c87f40c4c681a, type: 3}
+  _charactersData:
+  - {fileID: 11400000, guid: 71882138ec6c3054987dc6011e4e1acc, type: 2}
+  - {fileID: 11400000, guid: 353ccdfbe8a039e439d40a289b3ba43c, type: 2}
+  - {fileID: 11400000, guid: b812dc1648b9d854986fca0ada9e5bfd, type: 2}
   _transformsSpawnEntities:
   - {fileID: 1601710879}
   - {fileID: 1957742870}
-  _endPanelSettings: {fileID: 1118216775}
+  _endPanel: {fileID: 1118216775}
   _parentSpawnObjects: {fileID: 443840369}
   _prefabHPBar: {fileID: 7925398308761915718, guid: e2835cbb1b55188459315c498b3ab54c, type: 3}
   _textPrefab: {fileID: 4108277758879077828, guid: ba327c87d7148ed4ebef7591b11fdecd, type: 3}
@@ -1243,6 +1257,9 @@ MonoBehaviour:
   - "\u0410\u043D\u0442\u043E\u043D"
   - "\u0410\u043B\u0435\u043A\u0441\u0435\u0439"
   - "\u041C\u0438\u0445\u0430\u0438\u043B"
+  <CharactersInScene>k__BackingField:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1118216773
 GameObject:
   m_ObjectHideFlags: 0
@@ -1254,7 +1271,7 @@ GameObject:
   - component: {fileID: 1118216774}
   - component: {fileID: 1118216775}
   m_Layer: 0
-  m_Name: EndPanelSettings
+  m_Name: ScriptEndPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1284,11 +1301,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1118216773}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39d5f109c03db894186fdf520d242d69, type: 3}
+  m_Script: {fileID: 11500000, guid: ad21b57f294bd8c44834b93fad86aed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _endPanel: {fileID: 706187683}
-  _textInEndPanel: {fileID: 936839739}
+  _objectPanel: {fileID: 706187683}
+  _text: {fileID: 936839739}
 --- !u!1 &1179028021
 GameObject:
   m_ObjectHideFlags: 0
@@ -1402,7 +1419,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eda8630c7555c5f43ac1e0cf60ffd83c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _parentSpawnedElements: {fileID: 443840369}
   _charactersFactory: {fileID: 959293216}
 --- !u!1 &1601710878
 GameObject:

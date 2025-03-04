@@ -4,7 +4,7 @@ using UnityEngine;
 namespace GameScene.Characters
 {
     [CreateAssetMenu(fileName = "EntityData", menuName = "Entity", order = 51)]
-    public class CharacterData : ScriptableObject
+    public class CharacterScriptableData : ScriptableObject
     {
         [field: SerializeField]
         public int Damage { get; private set; }
@@ -26,6 +26,12 @@ namespace GameScene.Characters
 
         [field: SerializeField]
         public string TextApplicationsPerk { get; private set; }
+
+        [field: SerializeField]
+        public Color Color { get; private set; }
+
+        [field: SerializeField]
+        public CharacterType CharacterType { get; private set; }
     }
 }
 

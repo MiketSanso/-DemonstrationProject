@@ -14,45 +14,41 @@ namespace GameScene.Characters
         private int _speedFlyText;
 
         [SerializeField]
-        private AttackEnemy AttackEnemy;
+        private Character _character;
 
         private TMP_Text[] _poolTexts;
 
+        private HPBar _hpBar;
+
         [field: SerializeField]
-        public int CountTextsInPool { get; private set; }
+        public int SizePool { get; private set; }
 
         [field: SerializeField]
         public Transform TransformSpawnHPBar { get; private set; }
 
         [field: SerializeField]
         public Transform TransformSpawnText { get; private set; }
-        
-        public HPBar HpBar { get; private set; }
-
-        private void OnEnable()
-        {
-            AttackEnemy.CreateText += StartCreateText;
-            AttackEnemy.DestroyCharacter += DestroyThisObject;
-        }
 
         private void OnDisable()
         {
-            AttackEnemy.CreateText -= StartCreateText;
-            AttackEnemy.DestroyCharacter -= DestroyThisObject;
+            _character.OnCreateText -= StartCreateText;
+            _character.CharacterDestroyed -= Destroy;
         }
 
-        public void InitializeVariables(HPBar hpBar, TMP_Text[] poolTexts)
+        public void InitializeVariables(HPBar hpBar, TMP_Text[] poolTexts, Character character)
         {
-            HpBar = hpBar;
+            _hpBar = hpBar;
             _poolTexts = poolTexts;
+            _character = character;
+
+            EventSubscription();
         }
 
-        public void DestroyThisObject()
+        public void Destroy()
         {
-            HpBar.DestroyHPBar();
-            AttackEnemy.StopTaskAttack();
+            _hpBar.Destroy();
 
-            for (int i = 0; i < CountTextsInPool; i++)
+            for (int i = 0; i < SizePool; i++)
             {
                 Destroy(_poolTexts[i].gameObject);
             }
@@ -60,9 +56,20 @@ namespace GameScene.Characters
             Destroy(gameObject);
         }
 
+        private void EventSubscription()
+        {
+            _character.OnCreateText += StartCreateText;
+            _character.CharacterDestroyed += Destroy;
+        }
+
+        private async void StartCreateText(string textForSpawn)
+        {
+            await CreateText(textForSpawn);
+        }
+
         private async UniTask CreateText(string textForSpawn)
         {
-            for (int i = 0; i < CountTextsInPool; i++)
+            for (int i = 0; i < SizePool; i++)
             {
                 if (_poolTexts[i].color.a == 0)
                 {
@@ -76,11 +83,6 @@ namespace GameScene.Characters
                     break;
                 }
             }
-        }
-
-        private async void StartCreateText(string textForSpawn)
-        {
-            await CreateText(textForSpawn);
         }
     }
 }

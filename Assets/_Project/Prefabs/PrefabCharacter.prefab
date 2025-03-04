@@ -10,12 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7353671557570612810}
   - component: {fileID: 7237273246815632481}
-  - component: {fileID: 7428683926517838016}
   - component: {fileID: 656814496093202204}
   - component: {fileID: 2713806198433595835}
   - component: {fileID: 8705762729372925797}
   m_Layer: 0
-  m_Name: PrefabArcher
+  m_Name: PrefabCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,7 +82,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.19090424, g: 0.61719686, b: 0.735849, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -93,20 +92,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7428683926517838016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5065065929579615910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1c4b53e33d37e34f951709020ef0666, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <CharacterData>k__BackingField: {fileID: 11400000, guid: 71882138ec6c3054987dc6011e4e1acc, type: 2}
-  _toxicDamage: 3
 --- !u!114 &656814496093202204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,7 +106,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _heightFlyText: 3
   _speedFlyText: 1
-  AttackEnemy: {fileID: 7428683926517838016}
   <CountTextsInPool>k__BackingField: 4
   <TransformSpawnHPBar>k__BackingField: {fileID: 5213523484659567694}
   <TransformSpawnText>k__BackingField: {fileID: 3030884612407138739}

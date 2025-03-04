@@ -12,7 +12,7 @@ namespace GameScene.Characters
         [SerializeField]
         private TMP_Text _textHP;
 
-        private AttackEnemy _attackEnemy;
+        private Character _character;
 
         private Transform _transformOverEntity;
 
@@ -21,31 +21,33 @@ namespace GameScene.Characters
             transform.position = _transformOverEntity.position;
         }
 
-        private void Start()
-        {
-            _attackEnemy.ChangeHPBar += ChangeHPBar;
-        }
-
         private void OnDisable()
         {
-            _attackEnemy.ChangeHPBar -= ChangeHPBar;
+            _character.HealthChanged -= Change;
         }
 
-        public void InitializeValues(Transform tranformEntity, AttackEnemy attackEnemy)
+        public void InitializeValues(Transform tranformEntity, Character character)
         {
             _transformOverEntity = tranformEntity;
-            _attackEnemy = attackEnemy;
+            _character = character;
+
+            EventSubscription();
         }
 
-        public void ChangeHPBar(int _healthValue, int _maxHealthValue)
+        public void Change(int _healthValue, int _maxHealthValue)
         {
             _textHP.text = _healthValue.ToString() + " HP";
             _sliderHP.value = (float)_healthValue / (float)_maxHealthValue;
         }
 
-        public void DestroyHPBar()
+        public void Destroy()
         {
             Destroy(gameObject);
+        }
+
+        private void EventSubscription()
+        {
+            _character.HealthChanged += Change;
         }
     }
 }
