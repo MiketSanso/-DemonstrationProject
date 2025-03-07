@@ -7,16 +7,13 @@ namespace GameScene.Characters.Mage
 {
     public class Mage : Character
     {
-        public Mage(CharacterScriptableData entityData, string nameEntity, EndPanel endPanelSettings)
-            : base(entityData, nameEntity, endPanelSettings)
+        public Mage(CharacterConfig entityConfig, string nameEntity)
+            : base(entityConfig, nameEntity)
         { }
-
-        [SerializeField]
-        private int _coefChangeDamage;
 
         protected override async UniTask Perk(Character enemy)
         {
-            enemy.ChangeCoefDamage(_coefChangeDamage);
+            enemy.ChangeCoefDamage();
 
             await UniTask.Delay(TimeSpan.FromSeconds(DurationPerk), cancellationToken: TokenSourcePerk.Token);
 

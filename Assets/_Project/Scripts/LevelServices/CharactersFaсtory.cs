@@ -10,10 +10,10 @@ namespace GameScene.Level
     public class CharactersFactory : MonoBehaviour
     {
         [SerializeField]
-        private CharacterUI _entitiyPrefab;
+        private CharacterUI _characterPrefab;
 
         [SerializeField]
-        private CharacterScriptableData[] _charactersData;
+        private CharacterConfig[] _charactersData;
 
         [SerializeField]
         private Transform[] _transformsSpawn = new Transform[2];
@@ -35,7 +35,7 @@ namespace GameScene.Level
 
         public Character[] Characters { get; private set; }
 
-        public CharacterUI[] CharactersInScene { get; private set; } = new CharacterUI[2];
+        public CharacterUI[] CharactersUI { get; private set; } = new CharacterUI[2];
 
         public void CreateCharacters()
         {
@@ -43,60 +43,60 @@ namespace GameScene.Level
 
             for (int i = 0; i < 2; i++)
             {
-                CharactersInScene[i] = Instantiate(_entitiyPrefab,
+                CharactersUI[i] = Instantiate(_characterPrefab,
                     _transformsSpawn[i].position,
                     Quaternion.identity,
                     _transformsSpawn[i]);
 
-                CharacterScriptableData characterData = _charactersData[Random.Range(0, _charactersData.Length)];
+                CharacterConfig characterConfig = _charactersData[Random.Range(0, _charactersData.Length)];
                 string nameEntity = _namesForCharacter[Random.Range(0, _namesForCharacter.Length)];
-                Characters[i] = ConstructCharacter(characterData, nameEntity, _endPanel);
+                Characters[i] = ConstructCharacter(characterConfig, nameEntity);
 
-                CharactersInScene[i].GetComponent<SpriteRenderer>().color = characterData.Color;
+                CharactersUI[i].GetComponent<SpriteRenderer>().color = characterConfig.Color;
 
-                HPBar hpBarCharacter = CreateHPBar(CharactersInScene[i], Characters[i]);
-                TMP_Text[] poolTextsCharacter = CreatePoolTexts(CharactersInScene[i], CharactersInScene[i].SizePool);
-                CharactersInScene[i].InitializeVariables(hpBarCharacter, poolTextsCharacter, Characters[i]);
+                HPBar hpBarCharacter = CreateHpBar(CharactersUI[i], Characters[i]);
+                TMP_Text[] poolTextsCharacter = CreatePoolTexts(CharactersUI[i], CharactersUI[i].SizePool);
+                CharactersUI[i].Initialize(hpBarCharacter, poolTextsCharacter, Characters[i], _endPanel);
             }
 
             Characters[0].StartAttack(Characters[1]);
             Characters[1].StartAttack(Characters[0]);
         }
 
-        private Character ConstructCharacter(CharacterScriptableData characterData, string nameCharacter, EndPanel endPanel)
+        private Character ConstructCharacter(CharacterConfig characterConfig, string nameCharacter)
         {
-            if (characterData.CharacterType == CharacterType.Warrior)
+            if (characterConfig.CharacterType == CharacterType.Warrior)
             {
-                return new Warrior(characterData, nameCharacter, endPanel);
+                return new Warrior(characterConfig, nameCharacter);
             }
-            else if (characterData.CharacterType == CharacterType.Mage)
+            else if (characterConfig.CharacterType == CharacterType.Mage)
             {
-                return new Mage(characterData, nameCharacter, endPanel);
+                return new Mage(characterConfig, nameCharacter);
             }
-            else if (characterData.CharacterType == CharacterType.Archer)
+            else if (characterConfig.CharacterType == CharacterType.Archer)
             {
-                return new Archer(characterData, nameCharacter, endPanel);
+                return new Archer(characterConfig, nameCharacter);
             }
             else
             {
-                Debug.LogError("Поле CharacterType у CharacterScriptableData либо не заполнено, либо условия не дополнены.");
+                Debug.LogError("пїЅпїЅпїЅпїЅ CharacterType пїЅ CharacterScriptableData пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.");
                 return null;
             }
         }
 
-        private TMP_Text[] CreatePoolTexts(CharacterUI chareacter, int countTextsInPool)
+        private TMP_Text[] CreatePoolTexts(CharacterUI character, int countTextsInPool)
         {
             TMP_Text[] poolTexts = new TMP_Text[countTextsInPool];
 
             for (int i = 0; i < countTextsInPool; i++)
             {
-                poolTexts[i] = Instantiate(_textPrefab, chareacter.TransformSpawnText.position, Quaternion.identity, _parentSpawnUI);
+                poolTexts[i] = Instantiate(_textPrefab, character.TransformSpawnText.position, Quaternion.identity, _parentSpawnUI);
             }
 
             return poolTexts;
         }
 
-        private HPBar CreateHPBar(CharacterUI characterUI, Character character)
+        private HPBar CreateHpBar(CharacterUI characterUI, Character character)
         {
             HPBar hpBar = Instantiate(_prefabHPBar, characterUI.TransformSpawnHPBar.position, Quaternion.identity, _parentSpawnUI);
             hpBar.InitializeValues(characterUI.TransformSpawnHPBar, character);

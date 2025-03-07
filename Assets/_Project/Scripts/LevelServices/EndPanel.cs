@@ -11,10 +11,15 @@ namespace GameScene.Level
         [SerializeField]
         private TMP_Text _text;
 
+        public void SubscribeInCharacters()
+        {
+            
+        }
+
         public void Activate(string nameEntity)
         {
             _objectPanel.SetActive(true);
-            _text.text = $"Победил игрок с ником {nameEntity}! Хотите сыграть ещё раз?";
+            _text.text = $"пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ {nameEntity}! пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ?";
         }
 
         public void Deactivate()
