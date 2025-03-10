@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace GameScene.Repositories
 {
-    [CreateAssetMenu(fileName = "Repositories", menuName = "Names", order = 51)]
+    [CreateAssetMenu(fileName = "Repositories", menuName = "Names", order = 2)]
     public class NamesRepository : ScriptableObject
     {
         [SerializeField] private string[] names;

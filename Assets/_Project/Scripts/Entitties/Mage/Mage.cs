@@ -13,7 +13,7 @@ namespace GameScene.Characters.Mage
         protected override async UniTask Perk(Character enemy)
         {
             int damage = enemy.Damage;
-            enemy.ChangeDamage();
+            enemy.ChangeDamage(ForcePerk);
 
             await UniTask.Delay(TimeSpan.FromSeconds(DurationPerk), cancellationToken: TokenSourcePerk.Token);
 

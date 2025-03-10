@@ -2,10 +2,12 @@ using UnityEngine;
 
 namespace GameScene.Characters
 {
-    [CreateAssetMenu(fileName = "CharacterConfig", menuName = "Character", order = 51)]
+    [CreateAssetMenu(fileName = "CharacterConfig", menuName = "Character", order = 1)]
     public class CharacterConfig : ScriptableObject
     {
         [field: SerializeField] public int Damage { get; private set; }
+        
+        [field: SerializeField] public int ForcePerk  { get; private set; }
 
         [field: SerializeField] public int Cooldown { get; private set; }
 
@@ -14,8 +16,10 @@ namespace GameScene.Characters
         [field: SerializeField] public int MaxHealthEntity { get; private set; }
 
         [field: SerializeField] public int DurationPerk { get; private set; }
-
+        
         [field: SerializeField] public int PercentagesChancePerk { get; private set; }
+        
+        [field: SerializeField] public float DelayAfterPerk { get; private set; }
 
         [field: SerializeField] public string TextApplicationsPerk { get; private set; }
 

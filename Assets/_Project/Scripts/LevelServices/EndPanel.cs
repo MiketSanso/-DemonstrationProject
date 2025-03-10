@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using GameScene.Characters;
 
 namespace GameScene.Level
 {
@@ -10,28 +9,10 @@ namespace GameScene.Level
 
         [SerializeField] private TMP_Text _text;
 
-        private Character _firstCharacter;
-        private Character _secondCharacter;
-
-        private void OnDestroy()
-        {
-            _firstCharacter.OnWin -= Activate;
-            _secondCharacter.OnWin -= Activate;
-        }
-        
-        public void Subscribe(Character firstCharacter, Character secondCharacter)
-        {
-            _firstCharacter = firstCharacter;
-            _secondCharacter = secondCharacter;
-            
-            firstCharacter.OnWin += Activate;
-            secondCharacter.OnWin += Activate;
-        }
-
         public void Activate(string nameEntity)
         {
             _objectPanel.SetActive(true);
-            _text.text = $"������� ����� � ����� {nameEntity}! ������ ������� ��� ���?";
+            _text.text = $"Победил игрок с именем {nameEntity}! Сыграешь ещё раз?";
         }
 
         public void Deactivate()

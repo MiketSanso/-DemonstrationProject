@@ -24,9 +24,13 @@ namespace GameScene.Characters
         
         protected readonly int DurationPerk;
         
+        protected readonly int ForcePerk;
+        
         protected CancellationTokenSource TokenSourcePerk;
         
         private CancellationTokenSource _tokenSourceAttack;
+        
+        private readonly float _delayAfterPerk;
         
         private readonly int _cooldown;
         
@@ -34,11 +38,11 @@ namespace GameScene.Characters
         
         private readonly int _chancePerk;
         
-        private readonly CalculatorDamage _calculatorDamage = new CalculatorDamage();
-        
         private readonly string _namePerk;
-
-        public string NameEntity { get; private set; }
+        
+        private readonly string _nameEntity;
+        
+        private readonly CalculatorDamage _calculatorDamage = new CalculatorDamage();
 
         protected Character(CharacterConfig entityConfig, NamesRepository namesRepository)
         {
@@ -46,11 +50,13 @@ namespace GameScene.Characters
             MaxHealthEntity = new IntValue(entityConfig.MaxHealthEntity);
             _cooldown = new IntValue(entityConfig.Cooldown);
             _oneWayDamageSpread = new IntValue(entityConfig.OneWayDamageSpread);
+            _delayAfterPerk = entityConfig.DelayAfterPerk;
             Damage = new IntValue(entityConfig.Damage);
+            ForcePerk = entityConfig.ForcePerk;
             DurationPerk = new IntValue(entityConfig.DurationPerk);
             _chancePerk = new IntValue(Mathf.Clamp(entityConfig.PercentagesChancePerk, 0, 100));
             _namePerk = entityConfig.TextApplicationsPerk;
-            NameEntity = namesRepository.GetRandomName();
+            _nameEntity = namesRepository.GetRandomName();
         }
 
         public async void StartAttack(Character enemy)
@@ -63,11 +69,6 @@ namespace GameScene.Characters
             await Attack(enemy);
         }
 
-        public void StopAttack()
-        {
-            _tokenSourceAttack?.Cancel();
-        }
-
         public void GetDamage(int value, Character enemy)
         {
             int newHealth = Mathf.Clamp(HealthCharacter - Math.Abs(value), 0, MaxHealthEntity);
@@ -78,18 +79,13 @@ namespace GameScene.Characters
             
             HealthCharacter.Set(newHealth);
 
-            OnHarmEnemy?.Invoke($"{value} HP");
+            OnHarmEnemy?.Invoke($"-{value} HP");
 
             if (HealthCharacter == 0)
             {
                 enemy.Win();
                 StartDestroy();
             }
-        }
-
-        public void Win()
-        {
-            OnWin.Invoke(NameEntity);
         }
 
         public void StartDestroy()
@@ -107,6 +103,16 @@ namespace GameScene.Characters
         }
 
         protected abstract UniTask Perk(Character enemy);
+        
+        private void Win()
+        {
+            OnWin?.Invoke(_nameEntity);
+        }
+        
+        private void StopAttack()
+        {
+            _tokenSourceAttack?.Cancel();
+        }
 
         private void StopPerk()
         {
@@ -126,7 +132,7 @@ namespace GameScene.Characters
                     TokenSourcePerk = new CancellationTokenSource();
                 }
 
-                OnHarmEnemy?.Invoke($"�������� ����������� ����: {_namePerk}");
+                OnHarmEnemy?.Invoke($"Персонаж использовал перк: {_namePerk}");
 
                 try
                 {
@@ -155,7 +161,7 @@ namespace GameScene.Characters
 
                 TryUsePerk(enemy);
 
-                await UniTask.Delay(TimeSpan.FromSeconds(), cancellationToken: _tokenSourceAttack.Token);
+                await UniTask.Delay(TimeSpan.FromSeconds(_delayAfterPerk), cancellationToken: _tokenSourceAttack.Token);
 
             } while (_tokenSourceAttack?.IsCancellationRequested == false);
         }

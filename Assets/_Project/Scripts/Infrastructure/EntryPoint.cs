@@ -4,8 +4,7 @@ namespace GameScene.Level
 {
     public class EntryPoint : IInitializable
     {
-        [Inject]
-        private CharactersFactory _charactersFactory;
+        [Inject] private CharactersFactory _charactersFactory;
 
         public void Initialize()
         {

@@ -2,7 +2,6 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
-using GameScene.Level;
 
 namespace GameScene.Characters
 {
@@ -16,11 +15,11 @@ namespace GameScene.Characters
 
         private TMP_Text[] _poolTexts;
 
-        private HPBar _hpBar;
+        private HpBar _hpBar;
 
         [field: SerializeField] public int SizePool { get; private set; }
 
-        [field: SerializeField] public Transform TransformSpawnHPBar { get; private set; }
+        [field: SerializeField] public Transform TransformSpawnHpBar { get; private set; }
 
         [field: SerializeField] public Transform TransformSpawnText { get; private set; }
 
@@ -30,7 +29,7 @@ namespace GameScene.Characters
             _character.OnCharacterDestroy -= Destroy;
         }
 
-        public void Initialize(HPBar hpBar, TMP_Text[] poolTexts, Character character)
+        public void Initialize(HpBar hpBar, TMP_Text[] poolTexts, Character character)
         {
             _hpBar = hpBar;
             _poolTexts = poolTexts;

@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using GameScene.Level;
 using System;
 using GameScene.Repositories;
 
@@ -16,7 +15,7 @@ namespace GameScene.Characters.Warrior
             int damage = enemy.Damage;
             enemy.ChangeDamage(0);
 
-            await UniTask.Delay(TimeSpan.FromSeconds(DurationPerk), cancellationToken: TokenSourcePerk.Token);
+            await UniTask.Delay(TimeSpan.FromSeconds(DurationPerk * ForcePerk), cancellationToken: TokenSourcePerk.Token);
 
             enemy.ChangeDamage(damage);
         }

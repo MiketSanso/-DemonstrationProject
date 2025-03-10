@@ -8,7 +8,7 @@ namespace GameScene.Level
     {
         [SerializeField] private CharactersFactory _charactersFactory;
 
-        [SerializeField] private EndPanel _endPanel;
+        [SerializeField] private EndPanelController _endPanelController;
 
         [SerializeField] private Button _button;
 
@@ -29,7 +29,7 @@ namespace GameScene.Level
                 character?.StartDestroy();
             }
 
-            _endPanel.Deactivate();
+            _endPanelController.Deactivate();
             _charactersFactory.CreateCharacters();
         }
     }

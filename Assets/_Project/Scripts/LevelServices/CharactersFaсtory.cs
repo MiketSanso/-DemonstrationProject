@@ -16,27 +16,27 @@ namespace GameScene.Level
 
         [SerializeField] private Transform[] _transformsSpawn = new Transform[2];
 
-        [SerializeField] private EndPanel _endPanel;
+        [SerializeField] private EndPanelController _endPanelController;
 
         [SerializeField] private Transform _parentSpawnUI;
 
-        [SerializeField] private HPBar _prefabHPBar;
+        [SerializeField] private HpBar _prefabHPBar;
 
         [SerializeField] private TMP_Text _textPrefab;
 
         [SerializeField] private NamesRepository _namesRepository;
+        
+        private readonly CharacterUI[] _charactersUI = new CharacterUI[2];
 
-        public Character[] Characters { get; private set; }
-
-        public CharacterUI[] CharactersUI { get; private set; } = new CharacterUI[2];
-
+        public Character[] Characters { get; private set; } = new Character[2];
+        
         public void CreateCharacters()
         {
             Characters = new Character[2];
 
             for (int i = 0; i < 2; i++)
             {
-                CharactersUI[i] = Instantiate(_characterPrefab,
+                _charactersUI[i] = Instantiate(_characterPrefab,
                     _transformsSpawn[i].position,
                     Quaternion.identity,
                     _transformsSpawn[i]);
@@ -44,15 +44,17 @@ namespace GameScene.Level
                 CharacterConfig characterConfig = _charactersData[Random.Range(0, _charactersData.Length)];
                 Characters[i] = ConstructCharacter(characterConfig, _namesRepository);
 
-                CharactersUI[i].GetComponent<SpriteRenderer>().color = characterConfig.Color;
+                _charactersUI[i].GetComponent<SpriteRenderer>().color = characterConfig.Color;
 
-                HPBar hpBarCharacter = CreateHpBar(CharactersUI[i], Characters[i]);
-                TMP_Text[] poolTextsCharacter = CreatePoolTexts(CharactersUI[i], CharactersUI[i].SizePool);
-                CharactersUI[i].Initialize(hpBarCharacter, poolTextsCharacter, Characters[i]);
+                HpBar hpBarCharacter = CreateHpBar(_charactersUI[i], Characters[i]);
+                TMP_Text[] poolTextsCharacter = CreatePoolTexts(_charactersUI[i], _charactersUI[i].SizePool);
+                _charactersUI[i].Initialize(hpBarCharacter, poolTextsCharacter, Characters[i]);
             }
 
             Characters[0].StartAttack(Characters[1]);
             Characters[1].StartAttack(Characters[0]);
+            
+            _endPanelController.Subscribe(Characters[0], Characters[1]);
         }
 
         private Character ConstructCharacter(CharacterConfig characterConfig, NamesRepository namesRepository)
@@ -71,7 +73,7 @@ namespace GameScene.Level
             }
             else
             {
-                Debug.LogError("���� CharacterType � CharacterScriptableData ���� �� ���������, ���� ������� �� ���������.");
+                Debug.LogError("Новый CharacterType в CharacterScriptableData был добавлен не верно!");
                 return null;
             }
         }
@@ -88,10 +90,10 @@ namespace GameScene.Level
             return poolTexts;
         }
 
-        private HPBar CreateHpBar(CharacterUI characterUI, Character character)
+        private HpBar CreateHpBar(CharacterUI characterUI, Character character)
         {
-            HPBar hpBar = Instantiate(_prefabHPBar, characterUI.TransformSpawnHPBar.position, Quaternion.identity, _parentSpawnUI);
-            hpBar.InitializeValues(characterUI.TransformSpawnHPBar, character);
+            HpBar hpBar = Instantiate(_prefabHPBar, characterUI.TransformSpawnHpBar.position, Quaternion.identity, _parentSpawnUI);
+            hpBar.InitializeValues(characterUI.TransformSpawnHpBar, character);
 
             return hpBar;
         }

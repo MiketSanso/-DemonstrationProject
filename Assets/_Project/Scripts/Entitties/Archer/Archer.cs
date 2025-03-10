@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using GameScene.Level;
 using System;
 using GameScene.Repositories;
 
@@ -20,7 +19,7 @@ namespace GameScene.Characters.Archer
                 if (enemy.HealthCharacter == 0)
                     break;
 
-                enemy.GetDamage(Damage, enemy);
+                enemy.GetDamage(ForcePerk, enemy);
 
                 await UniTask.Delay(TimeSpan.FromSeconds(1), cancellationToken: TokenSourcePerk.Token);
 

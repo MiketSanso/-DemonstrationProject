@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace GameScene.Characters
 {
-    public class HPBar : MonoBehaviour
+    public class HpBar : MonoBehaviour
     {
         [SerializeField] private Slider _sliderHP;
 
@@ -24,23 +24,23 @@ namespace GameScene.Characters
             _character.HealthCharacter.OnChanged -= Change;
         }
 
-        public void InitializeValues(Transform tranformEntity, Character character)
+        public void InitializeValues(Transform transformEntity, Character character)
         {
-            _transformOverEntity = tranformEntity;
+            _transformOverEntity = transformEntity;
             _character = character;
 
             _character.HealthCharacter.OnChanged += Change;
         }
 
-        public void Change(int _healthValue)
-        {
-            _textHP.text = _healthValue.ToString() + " HP";
-            _sliderHP.value = (float)_healthValue / (float)_character.MaxHealthEntity;
-        }
-
         public void Destroy()
         {
             Destroy(gameObject);
+        }
+        
+        private void Change(int healthValue)
+        {
+            _textHP.text = healthValue.ToString() + " HP";
+            _sliderHP.value = (float)healthValue / _character.MaxHealthEntity;
         }
     }
 }

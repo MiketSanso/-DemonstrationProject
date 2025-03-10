@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: WarriorData
   m_EditorClassIdentifier: 
   <Damage>k__BackingField: 25
+  <ForcePerk>k__BackingField: 1
   <Cooldown>k__BackingField: 1
   <OneWayDamageSpread>k__BackingField: 3
   <MaxHealthEntity>k__BackingField: 100
   <DurationPerk>k__BackingField: 5
   <PercentagesChancePerk>k__BackingField: 20
+  <DelayAfterPerk>k__BackingField: 0.5
   <TextApplicationsPerk>k__BackingField: "\u0411\u043E\u043D\u044C\u043A"
   <Color>k__BackingField: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 1}
   <CharacterType>k__BackingField: 1
