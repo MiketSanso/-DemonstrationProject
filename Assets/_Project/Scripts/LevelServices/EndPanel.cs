@@ -5,16 +5,14 @@ namespace GameScene.Level
 {
     public class EndPanel : MonoBehaviour
     {
-        [SerializeField]
-        private GameObject _objectPanel;
+        [SerializeField] private GameObject _objectPanel;
 
-        [SerializeField]
-        private TMP_Text _text;
+        [SerializeField] private TMP_Text _text;
 
         public void Activate(string nameEntity)
         {
             _objectPanel.SetActive(true);
-            _text.text = $"Победил игрок с ником {nameEntity}! Хотите сыграть ещё раз?";
+            _text.text = $"РџРѕР±РµРґРёР» РёРіСЂРѕРє СЃ РёРјРµРЅРµРј {nameEntity}! РЎС‹РіСЂР°РµС€СЊ РµС‰С‘ СЂР°Р·?";
         }
 
         public void Deactivate()

@@ -1,13 +1,13 @@
 using Cysharp.Threading.Tasks;
-using GameScene.Level;
 using System;
+using GameScene.Repositories;
 
 namespace GameScene.Characters.Archer
 {
     public class Archer : Character
     {
-        public Archer(CharacterScriptableData entityData, string nameEntity, EndPanel endPanelSettings)
-            : base(entityData, nameEntity, endPanelSettings)
+        public Archer(CharacterConfig entityConfig, NamesRepository namesRepository)
+            : base(entityConfig, namesRepository)
         { }
 
         protected override async UniTask Perk(Character enemy)
@@ -16,10 +16,10 @@ namespace GameScene.Characters.Archer
 
             do
             {
-                if (enemy.HealthEntity == 0)
+                if (enemy.HealthCharacter == 0)
                     break;
 
-                enemy.TakeDamage(-Damage);
+                enemy.GetDamage(ForcePerk, enemy);
 
                 await UniTask.Delay(TimeSpan.FromSeconds(1), cancellationToken: TokenSourcePerk.Token);
 

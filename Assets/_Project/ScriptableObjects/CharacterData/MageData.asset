@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: MageData
   m_EditorClassIdentifier: 
   <Damage>k__BackingField: 25
+  <ForcePerk>k__BackingField: 10
   <Cooldown>k__BackingField: 1
   <OneWayDamageSpread>k__BackingField: 3
   <MaxHealthEntity>k__BackingField: 100
   <DurationPerk>k__BackingField: 5
   <PercentagesChancePerk>k__BackingField: 20
+  <DelayAfterPerk>k__BackingField: 0.5
   <TextApplicationsPerk>k__BackingField: "\u0421\u043B\u0430\u0431\u043E\u0441\u0442\u044C"
   <Color>k__BackingField: {r: 0.6415094, g: 0, b: 0.5870961, a: 1}
   <CharacterType>k__BackingField: 0

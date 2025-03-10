@@ -1,26 +1,23 @@
 using Cysharp.Threading.Tasks;
-using GameScene.Level;
 using System;
-using UnityEngine;
+using GameScene.Repositories;
 
 namespace GameScene.Characters.Mage
 {
     public class Mage : Character
     {
-        public Mage(CharacterScriptableData entityData, string nameEntity, EndPanel endPanelSettings)
-            : base(entityData, nameEntity, endPanelSettings)
+        public Mage(CharacterConfig entityConfig, NamesRepository namesRepository)
+            : base(entityConfig, namesRepository)
         { }
-
-        [SerializeField]
-        private int _coefChangeDamage;
 
         protected override async UniTask Perk(Character enemy)
         {
-            enemy.ChangeCoefDamage(_coefChangeDamage);
+            int damage = enemy.Damage;
+            enemy.ChangeDamage(ForcePerk);
 
             await UniTask.Delay(TimeSpan.FromSeconds(DurationPerk), cancellationToken: TokenSourcePerk.Token);
 
-            enemy.ChangeCoefDamage(0);
+            enemy.ChangeDamage(damage);
         }
     }
 }

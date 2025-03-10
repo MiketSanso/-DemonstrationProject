@@ -4,7 +4,7 @@ namespace GameScene.Characters
 {
     public class IntValue
     {
-        public Action<int> OnChanged;
+        public event Action<int> OnChanged;
 
         private int _value;
 

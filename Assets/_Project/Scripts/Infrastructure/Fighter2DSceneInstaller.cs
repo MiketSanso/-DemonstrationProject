@@ -6,8 +6,7 @@ namespace Common.Installers
 {
     public class Fighter2DSceneInstaller : MonoInstaller
     {
-        [SerializeField]
-        private CharactersFactory _charactersFactory;
+        [SerializeField] private CharactersFactory _charactersFactory;
 
         public override void InstallBindings()
         {

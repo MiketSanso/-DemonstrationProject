@@ -7,44 +7,39 @@ namespace GameScene.Characters
 {
     public class CharacterUI : MonoBehaviour
     {
-        [SerializeField]
-        private int _heightFlyText;
+        [SerializeField] private int _heightFlyText;
 
-        [SerializeField]
-        private int _speedFlyText;
-
-        [SerializeField]
+        [SerializeField] private int _speedFlyText;
+        
         private Character _character;
 
         private TMP_Text[] _poolTexts;
 
-        private HPBar _hpBar;
+        private HpBar _hpBar;
 
-        [field: SerializeField]
-        public int SizePool { get; private set; }
+        [field: SerializeField] public int SizePool { get; private set; }
 
-        [field: SerializeField]
-        public Transform TransformSpawnHPBar { get; private set; }
+        [field: SerializeField] public Transform TransformSpawnHpBar { get; private set; }
 
-        [field: SerializeField]
-        public Transform TransformSpawnText { get; private set; }
+        [field: SerializeField] public Transform TransformSpawnText { get; private set; }
 
         private void OnDisable()
         {
-            _character.OnCreateText -= StartCreateText;
-            _character.CharacterDestroyed -= Destroy;
+            _character.OnHarmEnemy -= CreateText;
+            _character.OnCharacterDestroy -= Destroy;
         }
 
-        public void InitializeVariables(HPBar hpBar, TMP_Text[] poolTexts, Character character)
+        public void Initialize(HpBar hpBar, TMP_Text[] poolTexts, Character character)
         {
             _hpBar = hpBar;
             _poolTexts = poolTexts;
             _character = character;
 
-            EventSubscription();
+            _character.OnHarmEnemy += CreateText;
+            _character.OnCharacterDestroy += Destroy;
         }
 
-        public void Destroy()
+        private void Destroy()
         {
             _hpBar.Destroy();
 
@@ -56,18 +51,12 @@ namespace GameScene.Characters
             Destroy(gameObject);
         }
 
-        private void EventSubscription()
+        private async void CreateText(string textForSpawn)
         {
-            _character.OnCreateText += StartCreateText;
-            _character.CharacterDestroyed += Destroy;
+            await TaskCreateText(textForSpawn);
         }
 
-        private async void StartCreateText(string textForSpawn)
-        {
-            await CreateText(textForSpawn);
-        }
-
-        private async UniTask CreateText(string textForSpawn)
+        private async UniTask TaskCreateText(string textForSpawn)
         {
             for (int i = 0; i < SizePool; i++)
             {

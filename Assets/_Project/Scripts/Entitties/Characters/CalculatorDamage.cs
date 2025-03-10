@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace GameScene.Characters
 {
-    public class CalculateDamage
+    public class CalculatorDamage
     {
-        public int Calculating(Character character, int oneWayDamageSpread)
+        public int Calculate(Character character, int oneWayDamageSpread)
         {
             int damage;
 
@@ -14,8 +14,8 @@ namespace GameScene.Characters
             }
             else
             {
-                damage = Random.Range(-character.Damage - oneWayDamageSpread, -character.Damage + oneWayDamageSpread) + character.CoefChangeDamage;
-                if (damage > 0)
+                damage = Random.Range(character.Damage - oneWayDamageSpread, character.Damage + oneWayDamageSpread);
+                if (damage < 0)
                     damage = 0;
             }
 
