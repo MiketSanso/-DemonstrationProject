@@ -2,6 +2,7 @@ using GameScene.Characters;
 using GameScene.Characters.Archer;
 using GameScene.Characters.Mage;
 using GameScene.Characters.Warrior;
+using GameScene.Repositories;
 using TMPro;
 using UnityEngine;
 
@@ -9,29 +10,21 @@ namespace GameScene.Level
 {
     public class CharactersFactory : MonoBehaviour
     {
-        [SerializeField]
-        private CharacterUI _characterPrefab;
+        [SerializeField] private CharacterUI _characterPrefab;
 
-        [SerializeField]
-        private CharacterConfig[] _charactersData;
+        [SerializeField] private CharacterConfig[] _charactersData;
 
-        [SerializeField]
-        private Transform[] _transformsSpawn = new Transform[2];
+        [SerializeField] private Transform[] _transformsSpawn = new Transform[2];
 
-        [SerializeField]
-        private EndPanel _endPanel;
+        [SerializeField] private EndPanel _endPanel;
 
-        [SerializeField]
-        private Transform _parentSpawnUI;
+        [SerializeField] private Transform _parentSpawnUI;
 
-        [SerializeField]
-        private HPBar _prefabHPBar;
+        [SerializeField] private HPBar _prefabHPBar;
 
-        [SerializeField]
-        private TMP_Text _textPrefab;
+        [SerializeField] private TMP_Text _textPrefab;
 
-        [SerializeField]
-        private string[] _namesForCharacter;
+        [SerializeField] private NamesRepository _namesRepository;
 
         public Character[] Characters { get; private set; }
 
@@ -49,33 +42,32 @@ namespace GameScene.Level
                     _transformsSpawn[i]);
 
                 CharacterConfig characterConfig = _charactersData[Random.Range(0, _charactersData.Length)];
-                string nameEntity = _namesForCharacter[Random.Range(0, _namesForCharacter.Length)];
-                Characters[i] = ConstructCharacter(characterConfig, nameEntity);
+                Characters[i] = ConstructCharacter(characterConfig, _namesRepository);
 
                 CharactersUI[i].GetComponent<SpriteRenderer>().color = characterConfig.Color;
 
                 HPBar hpBarCharacter = CreateHpBar(CharactersUI[i], Characters[i]);
                 TMP_Text[] poolTextsCharacter = CreatePoolTexts(CharactersUI[i], CharactersUI[i].SizePool);
-                CharactersUI[i].Initialize(hpBarCharacter, poolTextsCharacter, Characters[i], _endPanel);
+                CharactersUI[i].Initialize(hpBarCharacter, poolTextsCharacter, Characters[i]);
             }
 
             Characters[0].StartAttack(Characters[1]);
             Characters[1].StartAttack(Characters[0]);
         }
 
-        private Character ConstructCharacter(CharacterConfig characterConfig, string nameCharacter)
+        private Character ConstructCharacter(CharacterConfig characterConfig, NamesRepository namesRepository)
         {
             if (characterConfig.CharacterType == CharacterType.Warrior)
             {
-                return new Warrior(characterConfig, nameCharacter);
+                return new Warrior(characterConfig, namesRepository);
             }
             else if (characterConfig.CharacterType == CharacterType.Mage)
             {
-                return new Mage(characterConfig, nameCharacter);
+                return new Mage(characterConfig, namesRepository);
             }
             else if (characterConfig.CharacterType == CharacterType.Archer)
             {
-                return new Archer(characterConfig, nameCharacter);
+                return new Archer(characterConfig, namesRepository);
             }
             else
             {

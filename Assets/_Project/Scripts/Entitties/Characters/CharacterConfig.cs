@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace GameScene.Characters
 {
-    [CreateAssetMenu(fileName = "EntityData", menuName = "Entity", order = 51)]
+    [CreateAssetMenu(fileName = "CharacterConfig", menuName = "Character", order = 51)]
     public class CharacterConfig : ScriptableObject
     {
         [field: SerializeField] public int Damage { get; private set; }

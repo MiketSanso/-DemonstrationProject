@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
-using GameScene.Level;
 using System;
 using System.Threading;
+using GameScene.Repositories;
 using UnityEngine;
 
 namespace GameScene.Characters
@@ -9,14 +9,14 @@ namespace GameScene.Characters
     public abstract class Character
     {
         public event Action OnCharacterDestroy;
+        
+        public event Action<string> OnWin;
 
-        public event Action<string> OnCreateText;
+        public event Action<string> OnHarmEnemy;
 
         public IntValue Damage { get; private set; }
         
-        public IntValue CoefChangeDamage { get; private set; }
-        
-        public IntValue HealthEntity { get; private set; }
+        public IntValue HealthCharacter { get; private set; }
         
         public int MaxHealthEntity { get; private set; }
         
@@ -40,10 +40,9 @@ namespace GameScene.Characters
 
         public string NameEntity { get; private set; }
 
-        protected Character(CharacterConfig entityConfig, string nameEntity)
+        protected Character(CharacterConfig entityConfig, NamesRepository namesRepository)
         {
-            CoefChangeDamage = new IntValue(0);
-            HealthEntity = new IntValue(entityConfig.MaxHealthEntity);
+            HealthCharacter = new IntValue(entityConfig.MaxHealthEntity);
             MaxHealthEntity = new IntValue(entityConfig.MaxHealthEntity);
             _cooldown = new IntValue(entityConfig.Cooldown);
             _oneWayDamageSpread = new IntValue(entityConfig.OneWayDamageSpread);
@@ -51,13 +50,7 @@ namespace GameScene.Characters
             DurationPerk = new IntValue(entityConfig.DurationPerk);
             _chancePerk = new IntValue(Mathf.Clamp(entityConfig.PercentagesChancePerk, 0, 100));
             _namePerk = entityConfig.TextApplicationsPerk;
-            NameEntity = nameEntity;
-        }
-
-        public void ChangeCoefDamage(int newValue)
-        {
-            newValue = Math.Max(0, newValue);
-            CoefChangeDamage = new IntValue(Math.Max(0, newValue));
+            NameEntity = namesRepository.GetRandomName();
         }
 
         public async void StartAttack(Character enemy)
@@ -75,16 +68,28 @@ namespace GameScene.Characters
             _tokenSourceAttack?.Cancel();
         }
 
-        public void TakeDamage(int value)
+        public void GetDamage(int value, Character enemy)
         {
-            ChangeHealth(value);
-
-            OnCreateText?.Invoke($"{value} HP");
-
-            if (HealthEntity == 0)
+            int newHealth = Mathf.Clamp(HealthCharacter - Math.Abs(value), 0, MaxHealthEntity);
+            if (value < 0)
             {
+                Debug.LogError("Значение урона отрицательное!");
+            }
+            
+            HealthCharacter.Set(newHealth);
+
+            OnHarmEnemy?.Invoke($"{value} HP");
+
+            if (HealthCharacter == 0)
+            {
+                enemy.Win();
                 StartDestroy();
             }
+        }
+
+        public void Win()
+        {
+            OnWin.Invoke(NameEntity);
         }
 
         public void StartDestroy()
@@ -93,6 +98,12 @@ namespace GameScene.Characters
             StopPerk();
             
             OnCharacterDestroy?.Invoke();
+        }
+        
+        public void ChangeDamage(int newValue)
+        {
+            newValue = Math.Max(0, newValue);
+            Damage.Set(newValue);
         }
 
         protected abstract UniTask Perk(Character enemy);
@@ -115,7 +126,7 @@ namespace GameScene.Characters
                     TokenSourcePerk = new CancellationTokenSource();
                 }
 
-                OnCreateText?.Invoke($"�������� ����������� ����: {_namePerk}");
+                OnHarmEnemy?.Invoke($"�������� ����������� ����: {_namePerk}");
 
                 try
                 {
@@ -129,28 +140,22 @@ namespace GameScene.Characters
             }
         }
 
-        private void ChangeHealth(int valueChange)
-        {
-            int newHealth = Mathf.Clamp(HealthEntity + valueChange, 0, MaxHealthEntity);
-            HealthEntity.Set(newHealth);
-        }
-
         private async UniTask Attack(Character enemy)
         {
             do
             {
-                if (enemy.HealthEntity == 0 || _tokenSourceAttack == null || _tokenSourceAttack.IsCancellationRequested)
+                if (enemy.HealthCharacter == 0 || _tokenSourceAttack == null || _tokenSourceAttack.IsCancellationRequested)
                     break;
 
                 int damage = _calculatorDamage.Calculate(this, _oneWayDamageSpread);
 
-                enemy.TakeDamage(damage);
+                enemy.GetDamage(damage, enemy);
 
                 await UniTask.Delay(TimeSpan.FromSeconds(_cooldown), cancellationToken: _tokenSourceAttack.Token);
 
                 TryUsePerk(enemy);
 
-                await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: _tokenSourceAttack.Token);
+                await UniTask.Delay(TimeSpan.FromSeconds(), cancellationToken: _tokenSourceAttack.Token);
 
             } while (_tokenSourceAttack?.IsCancellationRequested == false);
         }

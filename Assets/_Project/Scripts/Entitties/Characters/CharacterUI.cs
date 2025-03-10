@@ -26,18 +26,18 @@ namespace GameScene.Characters
 
         private void OnDisable()
         {
-            _character.OnCreateText -= StartCreateText;
+            _character.OnHarmEnemy -= CreateText;
             _character.OnCharacterDestroy -= Destroy;
         }
 
-        public void Initialize(HPBar hpBar, TMP_Text[] poolTexts, Character character, EndPanel endPanel)
+        public void Initialize(HPBar hpBar, TMP_Text[] poolTexts, Character character)
         {
             _hpBar = hpBar;
             _poolTexts = poolTexts;
             _character = character;
-            _endPanel = endPanel;
 
-            EventSubscription();
+            _character.OnHarmEnemy += CreateText;
+            _character.OnCharacterDestroy += Destroy;
         }
 
         private void Destroy()
@@ -48,22 +48,16 @@ namespace GameScene.Characters
             {
                 Destroy(_poolTexts[i].gameObject);
             }
-            _endPanel.Activate(_character.NameEntity);
+
             Destroy(gameObject);
         }
 
-        private void EventSubscription()
+        private async void CreateText(string textForSpawn)
         {
-            _character.OnCreateText += StartCreateText;
-            _character.OnCharacterDestroy += Destroy;
+            await TaskCreateText(textForSpawn);
         }
 
-        private async void StartCreateText(string textForSpawn)
-        {
-            await CreateText(textForSpawn);
-        }
-
-        private async UniTask CreateText(string textForSpawn)
+        private async UniTask TaskCreateText(string textForSpawn)
         {
             for (int i = 0; i < SizePool; i++)
             {

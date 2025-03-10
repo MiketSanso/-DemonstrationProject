@@ -6,14 +6,11 @@ namespace GameScene.Level
 {
     public class ReloaderLevel : MonoBehaviour
     {
-        [SerializeField]
-        private CharactersFactory _charactersFactory;
+        [SerializeField] private CharactersFactory _charactersFactory;
 
-        [SerializeField]
-        private EndPanel _endPanel;
+        [SerializeField] private EndPanel _endPanel;
 
-        [SerializeField]
-        private Button _button;
+        [SerializeField] private Button _button;
 
         private void Awake()
         {
@@ -27,12 +24,9 @@ namespace GameScene.Level
 
         private void Reload()
         {
-            if (_charactersFactory.CharactersUI != null)
+            foreach(Character character in _charactersFactory.Characters)
             {
-                foreach(Character character in _charactersFactory.Characters)
-                {
-                    character.StartDestroy();
-                }
+                character?.StartDestroy();
             }
 
             _endPanel.Deactivate();

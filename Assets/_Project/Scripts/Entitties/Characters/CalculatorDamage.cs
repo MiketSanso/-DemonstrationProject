@@ -14,8 +14,8 @@ namespace GameScene.Characters
             }
             else
             {
-                damage = Random.Range(-character.Damage - oneWayDamageSpread, -character.Damage + oneWayDamageSpread) + character.CoefChangeDamage;
-                if (damage > 0)
+                damage = Random.Range(character.Damage - oneWayDamageSpread, character.Damage + oneWayDamageSpread);
+                if (damage < 0)
                     damage = 0;
             }
 

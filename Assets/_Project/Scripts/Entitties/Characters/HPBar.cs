@@ -6,11 +6,9 @@ namespace GameScene.Characters
 {
     public class HPBar : MonoBehaviour
     {
-        [SerializeField]
-        private Slider _sliderHP;
+        [SerializeField] private Slider _sliderHP;
 
-        [SerializeField]
-        private TMP_Text _textHP;
+        [SerializeField] private TMP_Text _textHP;
 
         private Character _character;
 
@@ -23,7 +21,7 @@ namespace GameScene.Characters
 
         private void OnDisable()
         {
-            _character.HealthEntity.OnChanged -= Change;
+            _character.HealthCharacter.OnChanged -= Change;
         }
 
         public void InitializeValues(Transform tranformEntity, Character character)
@@ -31,7 +29,7 @@ namespace GameScene.Characters
             _transformOverEntity = tranformEntity;
             _character = character;
 
-            EventSubscription();
+            _character.HealthCharacter.OnChanged += Change;
         }
 
         public void Change(int _healthValue)
@@ -43,11 +41,6 @@ namespace GameScene.Characters
         public void Destroy()
         {
             Destroy(gameObject);
-        }
-
-        private void EventSubscription()
-        {
-            _character.HealthEntity.OnChanged += Change;
         }
     }
 }
