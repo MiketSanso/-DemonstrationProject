@@ -496,7 +496,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 443840369}
-  - component: {fileID: 443840370}
   m_Layer: 5
   m_Name: ParentSpawnedElements
   m_TagString: Untagged
@@ -523,18 +522,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &443840370
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 443840368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f96ce10d3a1469f4d9c57c4b6503a133, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &481508771
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,7 +567,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _charactersFactory: {fileID: 959293216}
-  _endPanelController: {fileID: 1118216776}
   _button: {fileID: 67426573}
 --- !u!1 &519420028
 GameObject:
@@ -1241,11 +1227,12 @@ MonoBehaviour:
   _transformsSpawn:
   - {fileID: 1601710879}
   - {fileID: 1957742870}
-  _endPanelController: {fileID: 1118216776}
+  _endPanel: {fileID: 1118216775}
   _parentSpawnUI: {fileID: 443840369}
-  _prefabHPBar: {fileID: 7925398308761915718, guid: e2835cbb1b55188459315c498b3ab54c, type: 3}
-  _textPrefab: {fileID: 4108277758879077828, guid: ba327c87d7148ed4ebef7591b11fdecd, type: 3}
+  _prefabHpBar: {fileID: 7925398308761915718, guid: e2835cbb1b55188459315c498b3ab54c, type: 3}
+  textsPrefab: {fileID: 6697509731499970801, guid: 5411be6ca37465a48b1de6a3f636b8fd, type: 3}
   _namesRepository: {fileID: 11400000, guid: aef4abfeeec9a874f8c6e2e7d3b2b0f5, type: 2}
+  _reloader: {fileID: 481508773}
 --- !u!1 &1118216773
 GameObject:
   m_ObjectHideFlags: 0
@@ -1256,7 +1243,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1118216774}
   - component: {fileID: 1118216775}
-  - component: {fileID: 1118216776}
   m_Layer: 0
   m_Name: ScriptEndPanel
   m_TagString: Untagged
@@ -1293,19 +1279,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectPanel: {fileID: 706187683}
   _text: {fileID: 936839739}
---- !u!114 &1118216776
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118216773}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50fd4ab917af43b38372b5c842c6babd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _endPanel: {fileID: 1118216775}
 --- !u!1 &1179028021
 GameObject:
   m_ObjectHideFlags: 0
@@ -1420,6 +1393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _charactersFactory: {fileID: 959293216}
+  _textsRepository: {fileID: 11400000, guid: d6b04e8965bc39f4584048259d791762, type: 2}
 --- !u!1 &1601710878
 GameObject:
   m_ObjectHideFlags: 0

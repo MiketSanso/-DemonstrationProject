@@ -7,11 +7,9 @@ namespace GameScene.Characters
     public class HpBar : MonoBehaviour
     {
         [SerializeField] private Slider _sliderHP;
-
         [SerializeField] private TMP_Text _textHP;
 
         private Character _character;
-
         private Transform _transformOverEntity;
 
         private void Update()
@@ -21,15 +19,15 @@ namespace GameScene.Characters
 
         private void OnDisable()
         {
-            _character.HealthCharacter.OnChanged -= Change;
+            _character.Health.OnChanged -= Change;
         }
 
-        public void InitializeValues(Transform transformEntity, Character character)
+        public void Initialize(Transform transformEntity, Character character)
         {
             _transformOverEntity = transformEntity;
             _character = character;
 
-            _character.HealthCharacter.OnChanged += Change;
+            _character.Health.OnChanged += Change;
         }
 
         public void Destroy()
@@ -40,7 +38,7 @@ namespace GameScene.Characters
         private void Change(int healthValue)
         {
             _textHP.text = healthValue.ToString() + " HP";
-            _sliderHP.value = (float)healthValue / _character.MaxHealthEntity;
+            _sliderHP.value = (float)healthValue / _character.MaxHealth;
         }
     }
 }

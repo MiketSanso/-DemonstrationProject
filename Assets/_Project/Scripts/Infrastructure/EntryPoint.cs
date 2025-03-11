@@ -8,7 +8,7 @@ namespace GameScene.Level
 
         public void Initialize()
         {
-            _charactersFactory.CreateCharacters();
+            _charactersFactory.Create();
         }
     }
 }

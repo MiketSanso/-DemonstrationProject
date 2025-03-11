@@ -1,5 +1,5 @@
 <!-- UNITY CODE ASSIST INSTRUCTIONS START -->
-- Project name: TestProjectForMentor
+- Project name: DemonstrationProject
 - Unity version: Unity 6000.0.34f1
 - Active scene:
   - Name: Fighter2D
@@ -8,7 +8,7 @@
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Water, UI
 - Active game object:
-  - Name: ScriptCharactersFactory
+  - Name: Installers
   - Tag: Untagged
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

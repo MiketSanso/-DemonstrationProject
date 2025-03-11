@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace GameScene.Characters
 {
@@ -16,6 +17,11 @@ namespace GameScene.Characters
         public void Set(int value)
         {
             _value = Math.Max(0, value);
+            if (value < 0)
+            {
+                Debug.LogError("В смену урона входит отрицательное значение!");
+            }
+            
             OnChanged?.Invoke(_value);
         }
 

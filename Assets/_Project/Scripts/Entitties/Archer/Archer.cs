@@ -16,7 +16,7 @@ namespace GameScene.Characters.Archer
 
             do
             {
-                if (enemy.HealthCharacter == 0)
+                if (enemy.Health == 0)
                     break;
 
                 enemy.GetDamage(ForcePerk, enemy);
