@@ -1,16 +1,18 @@
 using GameScene.Characters;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 namespace GameScene.Level
 {
     public class ReloaderLevel : MonoBehaviour
     {
+        public event Action OnReloaded;
+        
         [SerializeField] private CharactersFactory _charactersFactory;
-
-        [SerializeField] private EndPanelController _endPanelController;
-
         [SerializeField] private Button _button;
+        
+        private EndPanelController _endPanelController;
 
         private void Awake()
         {
@@ -26,11 +28,11 @@ namespace GameScene.Level
         {
             foreach(Character character in _charactersFactory.Characters)
             {
-                character?.StartDestroy();
+                character?.Destroy();
             }
-
-            _endPanelController.Deactivate();
-            _charactersFactory.CreateCharacters();
+            
+            _charactersFactory.Create();
+            OnReloaded?.Invoke();
         }
     }
 }

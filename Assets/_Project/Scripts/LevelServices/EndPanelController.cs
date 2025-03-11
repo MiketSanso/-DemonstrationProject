@@ -1,38 +1,43 @@
-using UnityEngine;
 using GameScene.Characters;
 
 namespace GameScene.Level
 {
-    public class EndPanelController : MonoBehaviour
+    public class EndPanelController
     {
-        [SerializeField] private EndPanel _endPanel;
+        private readonly ReloaderLevel _reloader;
+        private readonly EndPanel _endPanel;
+        private readonly Character _firstCharacter;
+        private readonly Character _secondCharacter;
 
-        private Character _firstCharacter;
-        private Character _secondCharacter;
-
-        private void OnDestroy()
+        public EndPanelController(EndPanel endPanel, Character firstCharacter, Character secondCharacter, ReloaderLevel reloader)
         {
-            _firstCharacter.OnWin -= Activate;
-            _secondCharacter.OnWin -= Activate;
-        }
-        
-        public void Subscribe(Character firstCharacter, Character secondCharacter)
-        {
+            _endPanel = endPanel;
             _firstCharacter = firstCharacter;
             _secondCharacter = secondCharacter;
+            _reloader = reloader;
             
+            _reloader.OnReloaded += Deactivate;
             _firstCharacter.OnWin += Activate;
             _secondCharacter.OnWin += Activate;
+            _endPanel.OnDestroyed += Destroy;
+        }
+        
+        private void Destroy()
+        {
+            _reloader.OnReloaded -= Deactivate;
+            _firstCharacter.OnWin -= Activate;
+            _secondCharacter.OnWin -= Activate;
+            _endPanel.OnDestroyed -= Destroy;
         }
 
-        public void Deactivate()
+        private void Deactivate()
         {
             _endPanel.Deactivate();
         }
         
-        private void Activate(string nameCharacter)
+        private void Activate(Character character)
         {
-            _endPanel.Activate(nameCharacter);
+            _endPanel.Activate(character.NameCharacter);
         }
     }
 }
