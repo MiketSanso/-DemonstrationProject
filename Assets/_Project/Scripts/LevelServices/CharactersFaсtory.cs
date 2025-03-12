@@ -46,10 +46,12 @@ namespace GameScene.Level
 
                 HpBar hpBarCharacter = CreateHpBar(_charactersUI[i], Characters[i]);
                 
-                EffectText[] textsCharacter = CreateTexts(_charactersUI[i].SizePool, _charactersUI[i].TransformSpawnText);
-                PoolEffectTexts poolTexts = new PoolEffectTexts(textsCharacter, _textsRepository);
+                PoolEffectTexts poolTexts = new PoolEffectTexts(textsPrefab, 
+                    _charactersUI[i].SizePool, 
+                    _charactersUI[i].TransformSpawnText, 
+                    _parentSpawnUI);
                 
-                _charactersUI[i].Initialize(hpBarCharacter, poolTexts, Characters[i]);
+                _charactersUI[i].Initialize(hpBarCharacter, poolTexts, Characters[i], _textsRepository);
             }
 
             Characters[0].StartAttack(Characters[1]);
@@ -73,19 +75,8 @@ namespace GameScene.Level
                 return new Archer(characterConfig, namesRepository);
             }
 
+            Debug.LogError("Ни один из существующих CharacterType не подошёл");
             return null;
-        }
-        
-        private EffectText[] CreateTexts(int countTextsInPool, Transform transformSpawnText)
-        {
-            EffectText[] texts = new EffectText[countTextsInPool];
-
-            for (int i = 0; i < countTextsInPool; i++)
-            {
-                texts[i] = Instantiate(textsPrefab, transformSpawnText.position, Quaternion.identity, _parentSpawnUI);
-            }
-
-            return texts;
         }
 
         private HpBar CreateHpBar(CharacterUI characterUI, Character character)

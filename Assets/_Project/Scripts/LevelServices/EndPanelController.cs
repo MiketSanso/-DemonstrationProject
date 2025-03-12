@@ -37,7 +37,7 @@ namespace GameScene.Level
         
         private void Activate(Character character)
         {
-            _endPanel.Activate(character.NameCharacter);
+            _endPanel.Activate(character.Name);
         }
     }
 }

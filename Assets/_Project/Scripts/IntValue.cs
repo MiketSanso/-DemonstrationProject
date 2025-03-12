@@ -16,11 +16,11 @@ namespace GameScene.Characters
 
         public void Set(int value)
         {
-            _value = Math.Max(0, value);
             if (value < 0)
             {
                 Debug.LogError("В смену урона входит отрицательное значение!");
             }
+            _value = Math.Max(0, value);
             
             OnChanged?.Invoke(_value);
         }
