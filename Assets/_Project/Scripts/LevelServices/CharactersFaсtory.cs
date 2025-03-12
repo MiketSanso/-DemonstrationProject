@@ -51,7 +51,7 @@ namespace GameScene.Level
                     _charactersUI[i].TransformSpawnText, 
                     _parentSpawnUI);
                 
-                _charactersUI[i].Initialize(hpBarCharacter, poolTexts, Characters[i], _textsRepository);
+                _charactersUI[i].Initialize(hpBarCharacter, poolTexts, Characters[i]);
             }
 
             Characters[0].StartAttack(Characters[1]);
@@ -64,15 +64,15 @@ namespace GameScene.Level
         {
             if (characterConfig.CharacterType == CharacterType.Warrior)
             {
-                return new Warrior(characterConfig, namesRepository);
+                return new Warrior(characterConfig, namesRepository, _textsRepository);
             }
             if (characterConfig.CharacterType == CharacterType.Mage)
             {
-                return new Mage(characterConfig, namesRepository);
+                return new Mage(characterConfig, namesRepository, _textsRepository);
             }
             if (characterConfig.CharacterType == CharacterType.Archer)
             {
-                return new Archer(characterConfig, namesRepository);
+                return new Archer(characterConfig, namesRepository, _textsRepository);
             }
 
             Debug.LogError("Ни один из существующих CharacterType не подошёл");

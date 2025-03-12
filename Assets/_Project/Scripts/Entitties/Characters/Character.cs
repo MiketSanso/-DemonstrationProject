@@ -11,7 +11,9 @@ namespace GameScene.Characters
     {
         public event Action OnCharacterDestroy;
         public event Action<Character> OnWin;
-        public event Action<string, TypesText> OnHarmEnemy;
+        public event Action<string> OnDamaged;
+        public event Action<string> OnUsePerk;
+
         public IntValue Damage { get; private set; }
         public IntValue Health { get; private set; }
         public int MaxHealth { get; private set; }
@@ -28,10 +30,11 @@ namespace GameScene.Characters
         private readonly int _chancePerk;
         private readonly string _namePerk;
         private readonly CalculatorDamage _calculatorDamage = new CalculatorDamage();
+        private readonly TextsRepository _textsRepository;
 
         public readonly string Name;
 
-        protected Character(CharacterConfig entityConfig, NamesRepository namesRepository)
+        protected Character(CharacterConfig entityConfig, NamesRepository namesRepository, TextsRepository textsRepository)
         {
             Health = new IntValue(entityConfig.MaxHealthEntity);
             MaxHealth = new IntValue(entityConfig.MaxHealthEntity);
@@ -44,6 +47,7 @@ namespace GameScene.Characters
             _chancePerk = new IntValue(Mathf.Clamp(entityConfig.PercentagesChancePerk, 0, 100));
             _namePerk = entityConfig.TextApplicationsPerk;
             Name = namesRepository.GetRandomName();
+            _textsRepository = textsRepository;
         }
 
         public async void StartAttack(Character enemy)
@@ -66,7 +70,7 @@ namespace GameScene.Characters
             
             Health.Set(newHealth);
 
-            OnHarmEnemy?.Invoke(value.ToString(), TypesText.Damage);
+            OnDamaged?.Invoke($"-{value.ToString()} {_textsRepository.Health}");
 
             if (Health == 0)
             {
@@ -85,11 +89,11 @@ namespace GameScene.Characters
         
         public void ChangeDamage(int value)
         {
-            value = Math.Max(0, value);
             if (value < 0)
             {
                 Debug.LogError("В смену урона входит отрицательное значение!");
             }
+            value = Math.Max(0, value);
             
             Damage.Set(value);
         }
@@ -124,7 +128,7 @@ namespace GameScene.Characters
                     TokenSourcePerk = new CancellationTokenSource();
                 }
 
-                OnHarmEnemy?.Invoke(_namePerk, TypesText.Perk);
+                OnUsePerk?.Invoke($"{_textsRepository.UsePerk} {_namePerk}");
 
                 try
                 {
