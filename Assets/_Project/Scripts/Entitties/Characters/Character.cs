@@ -29,7 +29,7 @@ namespace GameScene.Characters
         private readonly string _namePerk;
         private readonly CalculatorDamage _calculatorDamage = new CalculatorDamage();
 
-        public readonly string NameCharacter;
+        public readonly string Name;
 
         protected Character(CharacterConfig entityConfig, NamesRepository namesRepository)
         {
@@ -43,7 +43,7 @@ namespace GameScene.Characters
             DurationPerk = new IntValue(entityConfig.DurationPerk);
             _chancePerk = new IntValue(Mathf.Clamp(entityConfig.PercentagesChancePerk, 0, 100));
             _namePerk = entityConfig.TextApplicationsPerk;
-            NameCharacter = namesRepository.GetRandomName();
+            Name = namesRepository.GetRandomName();
         }
 
         public async void StartAttack(Character enemy)

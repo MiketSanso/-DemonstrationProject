@@ -13,6 +13,11 @@ namespace GameScene.Level.Texts
             Destroy(_text);
         }
 
+        public EffectText Create(Transform transformSpawn, Transform parentSpawn)
+        {
+            return Instantiate(this, transformSpawn.position, Quaternion.identity, parentSpawn);
+        }
+
         public static implicit operator TMP_Text(EffectText d) => d._text;
     }
 }

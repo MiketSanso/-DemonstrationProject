@@ -6,42 +6,20 @@ namespace GameScene.Level.Texts
 {
     public class PoolEffectTexts
     {
-        private readonly EffectText[] _texts;
-        private readonly TextsRepository _textsRepository;
+        public EffectText[] Texts;
 
-        public PoolEffectTexts(EffectText[] texts, TextsRepository textsRepository)
+        public PoolEffectTexts(EffectText prefab, int countTexts, Transform transformSpawn, Transform transformParent)
         {
-            _texts = texts;
-            _textsRepository = textsRepository;
-        }
-        
-        public void RespawnText(TypesText typeText, string textForSpawn, Transform transformSpawnText, float heightFlyText, float speedFlyText)
-        {
-            foreach (TMP_Text text in _texts)
+            Texts = new EffectText[countTexts];
+            for (int i = 0; i < countTexts; i++)
             {
-                if (text.color.a == 0)
-                {
-                    text.color = new Vector4(text.color.r, text.color.g, text.color.b, 100);
-                    text.transform.position = transformSpawnText.position;
-
-                    if (typeText == TypesText.Damage)
-                    {
-                        text.text = $"-{textForSpawn}";
-                    }
-                    else if (typeText == TypesText.Perk)
-                    {
-                        text.text = $"{_textsRepository.UsePerk} {textForSpawn}";
-                    }
-
-                    text.transform.DOMove(new Vector3(text.transform.position.x, text.transform.position.y + heightFlyText), speedFlyText);
-                    text.DOColor(new Vector4(text.color.r, text.color.g, text.color.b, 0), speedFlyText);
-                }
+                Texts[i] = prefab.Create(transformSpawn, transformParent);
             }
         }
 
         public void DestroyPool()
         {
-            foreach (EffectText text in _texts)
+            foreach (EffectText text in Texts)
             {
                 text.Destroy();
             }
